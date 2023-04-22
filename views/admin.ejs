@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="rus">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap">
+    <title>Таблица лидеров</title>
+</head>
+
+<body>
+    <div class="add_or_edit_form">
+        <div class="form_wrapper">
+            <form name="form_judge">
+                <h2></h2>
+                <label for="judge_type">Роль</label>
+                <select name="judge_type">
+                    <option value="judge">Судья</option>
+                    <option value="general_judge">Главный судья</option>
+                </select>
+                <label for="judge_fio">ФИО</label>
+                <input name="judge_fio" type="text" required>
+                <label for="judge_login">Логин</label>
+                <input name="judge_login" type="text" required>
+                <label for="judge_pass">Пароль</label>
+                <input name="judge_pass" type="text" required>
+                <button type="submit" name="addOrEdit">Добавить</button>
+                <button type="reset" name="cancel">Отменить</button>
+            </form>
+            <form name="form_member">
+                <h2>ФОРМА ДЛЯ УЧАСТНИКОВ</h2>
+                <label for="member_number">Номер</label>
+                <input name="member_number" type="number" required>
+                <label for="member_fio">ФИО</label>
+                <input name="member_fio" type="text" required>
+                <button type="submit" name="addOrEdit">Добавить</button>
+                <button type="reset" name="cancel">Отменить</button>
+            </form>
+            <form name="form_contest">
+                <h2>ФОРМА ДЛЯ КОНКУРСА</h2>
+                <label for="contest_name">Наименование</label>
+                <input name="contest_name" type="text" required>
+                <label for="contest_min_points">Минимальное кол-во очков</label>
+                <input name="contest_min_points" type="number" required>
+                <label for="contest_max_points">Максимальное кол-во очков</label>
+                <input name="contest_max_points" type="number" required>
+                <button type="submit" name="addOrEdit">Добавить</button>
+                <button type="reset" name="cancel">Отменить</button>
+            </form>
+        </div>
+    </div>
+    <header>
+        <nav class="control">
+            <div class="navigation">
+                <a href="/" class="to__main">На главную</a>
+            </div>
+            <span class="page_title">Вы вошли как администратор</span>
+        </nav>
+    </header>
+    <main class="adminpanel">
+        <div class="accordion_wrapper">
+            <button class="accord_btn">Общие настройки</button>
+            <div class="accord_panel">
+                <div class="accord_item">
+                    <span>В разработке</span>
+                </div>
+            </div>
+            <button class="accord_btn">Судьи</button>
+            <div class="accord_panel">
+                <div class="accord_item">
+                    <button class="add_at_list" id="add_judge">Добавить судью</button>
+                    <table>
+                        <tbody>
+                            <% if (data.judges) { %>
+                                <% data.judges.forEach(judge=> { %>
+                                    <tr id="<%= judge.id %>" data-item="judge">
+                                        <td data-judgeType>
+                                            <%= judge.type %>
+                                        </td>
+                                        <td data-judgeFio>
+                                            <%= judge.fio %>
+                                        </td>
+                                        <td data-judgeLogin>
+                                            <%= judge.login %>
+                                        </td>
+                                        <td data-judgePass>
+                                            <%= judge.pass %>
+                                        </td>
+                                        <td align="right"><button class="edit_item">Редактировать</button><button
+                                                class="remove_item">Удалить</button></td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="accord_btn">Участники</button>
+            <div class="accord_panel">
+                <div class="accord_item">
+                    <button class="add_at_list" id="add_member">Добавить участника</button>
+                    <table>
+                        <tbody>
+                            <% if (data.members) { %>
+                                <% data.members.forEach(member=> { %>
+                                    <tr id="<%= member.id %>" data-item="member">
+                                        <td data-memberNumber>
+                                            <%= member.number %>
+                                        </td>
+                                        <td data-memberFio>
+                                            <%= member.fio %>
+                                        </td>
+                                        <td align="right"><button class="edit_item">Редактировать</button><button
+                                                class="remove_item">Удалить</button></td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="accord_btn">Конкурсы</button>
+            <div class="accord_panel">
+                <div class="accord_item">
+                    <button class="add_at_list" id="add_contest">Добавить конкурс</button>
+                    <table>
+                        <tbody>
+                            <% if (data.contests) { %>
+                                <% data.contests.forEach(contest=> { %>
+                                    <tr id="<%= contest.id %>" data-item="contest">
+                                        <td data-contestName>
+                                            <%= contest.name %>
+                                        </td>
+                                        <td data-contestMinPoints>
+                                            <%= contest.min_points %>
+                                        </td>
+                                        <td data-contestMaxPoints>
+                                            <%= contest.max_points %>
+                                        </td>
+                                        <td align="right"><button class="resutls_item">Результаты</button><button
+                                                class="edit_item">Редактировать</button><button
+                                                class="remove_item">Удалить</button></td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <span class="author">Nikita Taranyuk</span>
+        <span class="tech">Node JS / Express JS / EJS</span>
+    </footer>
+    <script>
+        // Визуал
+        let accords = document.querySelectorAll(".accord_btn");
+        accords.forEach((elem) => {
+            elem.addEventListener("click", () => {
+                elem.classList.toggle("active_accord");
+                let panel = elem.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + 200 + "px";
+                }
+            });
+        });
+        // Запросы и ответы
+        let new_List = {}
+        let old_List = {}
+        let xhr = new XMLHttpRequest()
+        // отправка данных
+        function sendRequest(method, requestURL, body = null) {
+            return new Promise((resolve, reject) => {
+                xhr.open(method, requestURL)
+                xhr.responseType = "json"
+                xhr.setRequestHeader('Content-Type', 'application/json')
+                xhr.onload = () => {
+                    if (xhr.status >= 400) reject(xhr.response);
+                    else resolve(xhr.response);
+                }
+                xhr.onerror = () => {
+                    reject(xhr.response);
+                }
+                if (body != null) JSON.stringify(body)
+                xhr.send(body)
+            })
+        }
+        // функционал кнопок
+        // Кнопка добавить
+        const btnAddJudge = document.querySelector('#add_judge')
+        btnAddJudge.addEventListener('click', () => {
+            formTitle = document.querySelector('form[name="form_judge"]').firstElementChild
+            formTitle.innerHTML = "Добавить судью"
+            document.querySelector('.add_or_edit_form').style.display = "flex"
+            document.forms.form_judge.style.display = "flex"
+            document.body.style.overflowY = 'hidden'
+        })
+        const btnAddMember = document.querySelector('#add_member')
+        btnAddMember.addEventListener('click', () => {
+            formTitle = document.querySelector('form[name="form_member"]').firstElementChild
+            formTitle.innerHTML = "Добавить участника"
+            document.querySelector('.add_or_edit_form').style.display = "flex"
+            document.forms.form_member.style.display = "flex"
+            document.body.style.overflowY = 'hidden'
+        })
+        const btnAddContest = document.querySelector('#add_contest')
+        btnAddContest.addEventListener('click', () => {
+            formTitle = document.querySelector('form[name="form_contest"]').firstElementChild
+            formTitle.innerHTML = "Добавить конкурс"
+            document.querySelector('.add_or_edit_form').style.display = "flex"
+            document.forms.form_contest.style.display = "flex"
+            document.body.style.overflowY = 'hidden'
+        })
+        // Кнопка редактировать
+        const dtnsEditItem = document.querySelectorAll('.edit_item')
+        dtnsEditItem.forEach(btn => btn.addEventListener('click', () => {
+            let item = btn.parentNode.parentNode
+            let itemId = item.id
+            let itemType = item.dataset.item
+            console.log(itemType);
+            switch (itemType) {
+                case 'judge':
+                    form = document.querySelector('form[name="form_judge"]')
+                    form.firstElementChild.innerHTML = "Редактировать судью"
+                    document.forms.form_judge.elements.judge_type.querySelector(`option[value="${item.querySelector('td[data-judgeType]').innerText}"]`).selected = true
+                    document.forms.form_judge.elements.judge_fio.value = item.querySelector('td[data-judgeFio]').innerText
+                    document.forms.form_judge.elements.judge_login.value = item.querySelector('td[data-judgeLogin]').innerText
+                    document.forms.form_judge.elements.judge_pass.value = item.querySelector('td[data-judgePass]').innerText
+                    document.querySelector('.add_or_edit_form').style.display = "flex"
+                    document.forms.form_judge.style.display = "flex"
+                    document.body.style.overflowY = 'hidden'
+                    break;
+                case 'member':
+                    form = document.querySelector('form[name="form_member"]')
+                    form.firstElementChild.innerHTML = "Редактировать участника"
+                    document.forms.form_member.elements.member_number.value = item.querySelector('td[data-memberNumber]').innerText
+                    document.forms.form_member.elements.member_fio.value = item.querySelector('td[data-memberFio]').innerText
+                    document.querySelector('.add_or_edit_form').style.display = "flex"
+                    document.forms.form_member.style.display = "flex"
+                    document.body.style.overflowY = 'hidden'
+                    break;
+                case 'contest':
+                    form = document.querySelector('form[name="form_contest"]')
+                    form.firstElementChild.innerHTML = "Редактировать конкурс"
+                    document.forms.form_contest.elements.contest_name.value = item.querySelector('td[data-contestName]').innerText
+                    document.forms.form_contest.elements.contest_min_points.value = item.querySelector('td[data-contestMinPoints]').innerText
+                    document.forms.form_contest.elements.contest_max_points.value = item.querySelector('td[data-contestMaxPoints]').innerText
+                    document.querySelector('.add_or_edit_form').style.display = "flex"
+                    document.forms.form_contest.style.display = "flex"
+                    document.body.style.overflowY = 'hidden'
+                    break;
+                default:
+                    break;
+            }
+        }))
+        // Кнопка закрытия формы
+        forms = document.querySelectorAll('form')
+        forms.forEach(form => {
+            btnCancel = form.elements.cancel
+            btnCancel.addEventListener('click', () => {
+                document.querySelector('.add_or_edit_form').style.display = "none"
+                form.style.display = "none"
+                document.body.style.overflowY = 'scroll'
+            })
+        })
+
+        // Кнопка удалить
+        const dtnsRemoveItem = document.querySelectorAll('.remove_item')
+        dtnsRemoveItem.forEach(btn => btn.addEventListener('click', () => {
+            item = btn.parentNode.parentNode
+            itemId = item.id
+            confirmRemove = confirm('Подтвердите удаление элемента')
+            if (confirmRemove) {
+                sendRequest('DELETE', `/removeitem/${itemId}`)
+                item.remove()
+            }
+        }))
+
+
+
+
+        // функции сортировки
+        function byFieldToUp(field) {
+            return (a, b) => a[field] > b[field] ? 1 : -1;
+        }
+        function byFieldToDown(field) {
+            return (a, b) => a[field] > b[field] ? -1 : 1;
+        }
+    </script>
+
+</body>
+
+</html>

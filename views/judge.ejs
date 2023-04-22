@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="rus">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap">
+    <title>Таблица лидеров</title>
+</head>
+
+<body>
+    <header>
+        <nav class="control">
+            <div class="navigation">
+                <a href="/" class="to__main">На главную</a>
+            </div>
+            <span class="page_title">Вы вошли как <%= judge.fio %></span>
+            <div class="settinings">
+                
+            </div>
+        </nav>
+
+    </header>
+    <main class="adminpanel">
+        <div class="lists__wrapper">
+            <div class="members__list" style="height: 100%;">
+                <div class="members__list_wrapper">
+                    <div class="list__title">
+                                <h2>Список участников</h2>
+                    </div>
+                    <div class="list__body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Участник</th>
+                                    <th>Конкурс 1</th>
+                                    <th>Конкурс 2</th>
+                                    <th>Конкурс 3</th>
+                                    <th>Конкурс 4</th>
+                                </tr>
+                            </thead>
+                            <tbody id="members__list_body">
+                                <% if (memberslist) { %>
+                                    <% memberslist.forEach(elem=> { %>
+                                        <tr>
+                                            <td>
+                                                <%= elem.number %>
+                                            </td>
+                                            <td>
+                                                <%= elem.name %>
+                                            </td>
+                                            <% contests.forEach(contest => { %>
+                                                <td><form action="post" name="<%= contest.name %>">
+                                                    <select name="addPoints">
+                                                        <% for (let i = 0; i <= contest.max_points; i++) { %>
+                                                            <option value="<%= i %>"><%= i %></option>
+                                                        <% } %>
+                                                    </select>
+                                                </form>
+                                                <button class="confirmMark" id="<%= elem.id %>" data-member-name="<%= elem.name %>">Оценить</button></td>
+                                            <% }) %>        
+                                        </tr>
+                                    <% }) %>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <span class="author">Nikita Taranyuk</span>
+        <span class="tech">Node JS / Express JS / EJS</span>
+    </footer>
+</body>
+<script>
+    let request = new XMLHttpRequest()
+    // функции сортировки
+    function byFieldToUp(field) {
+        return (a, b) => a[field] > b[field] ? 1 : -1;
+    }
+    function byFieldToDown(field) {
+        return (a, b) => a[field] > b[field] ? -1 : 1;
+    }
+    // отправка оценки
+    document.querySelectorAll('.confirmMark').forEach(confirmBtn => {
+        confirmBtn.addEventListener('click', () => {
+            areYourShureAbouThat = confirm('Подтвердите оценку')
+            if (areYourShureAbouThat) {
+                memberMark = document.forms[`${confirmBtn.id}`].elements['addPoints'].value
+                judgefio = `<%= judge.fio %>`;
+                member = JSON.stringify({
+                    id: confirmBtn.id,
+                    name: confirmBtn.dataset.memberName,
+                    mark: memberMark,
+                    judge: judgefio
+                })
+                request.open("POST", `/rate/${document.getElementsByName('judge').id}`, true);
+                request.setRequestHeader("Content-Type", "application/json");
+                request.send(member);
+            }
+        })
+    })
+</script>
+
+</html>

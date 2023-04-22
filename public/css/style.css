@@ -1,0 +1,430 @@
+/* Links */
+
+a,
+a:link,
+a:visited {
+    color: inherit;
+    text-decoration: none;
+    /* display: inline-block; */
+}
+
+a:hover {
+    /* color: inherit; */
+    text-decoration: none;
+}
+
+html {
+    font-size: 14pt;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #eae1ef;
+    background: linear-gradient(45deg, #eae1ef, #eadbd7);
+
+    overflow: hidden;
+}
+
+body._changeBGC {
+    background: #00ff00;
+}
+
+main {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    width: 100vw;
+    height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+header {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    width: 100vw;
+    height: 10vh;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 500;
+    color: #02a0da;
+    letter-spacing: 0rem;
+
+    cursor: default;
+}
+
+.control {
+    margin: 0;
+    padding: 0 2rem;
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.page_title {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px 2px #223c5033;
+}
+
+.settinings {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 0 0 0 1rem;
+}
+
+.settinings button {
+    font-size: 1rem;
+    font-weight: 300;
+    padding: 0.25rem 0.5rem;
+    background-color: #97cded;
+    color: #ffffff;
+    border: none;
+    transition: all 0.2s ease 0s;
+}
+.settinings button a {
+    color: #ffffff;
+}
+.settinings button:hover, .settinings button:focus {
+    background-color: #02a0da;
+}
+
+.settinings button:active {
+    transform: scale(0.98);
+}
+
+footer {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    width: 100vw;
+    height: 10vh;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 300;
+    color: #b8afc9;
+    letter-spacing: 0rem;
+
+    cursor: default;
+    opacity: 0.5;
+}
+
+/* ПЕРЕКЛЮЧАТЕЛЬ */
+.switch-btn {
+    display: inline-block;
+    width: 72px;
+    /* ширина */
+    height: 38px;
+    /* высота */
+    background: #b8afc9;
+    /* цвет фона */
+    z-index: 0;
+    margin: 0 0 0 1rem;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition-duration: 300ms;
+    /* анимация */
+}
+
+.switch-btn::after {
+    content: "";
+    height: 32px;
+    /* высота кнопки */
+    width: 32px;
+    /* ширина кнопки */
+    background: #fff;
+    /* цвет кнопки */
+    top: 3px;
+    /* положение кнопки по вертикали относительно основы */
+    left: 3px;
+    /* положение кнопки по горизонтали относительно основы */
+    transition-duration: 300ms;
+    /* анимация */
+    position: absolute;
+    z-index: 1;
+}
+
+.switch-on {
+    background: #02a0da;
+}
+
+.switch-on::after {
+    left: 37px;
+}
+
+/* СТИЛИЗАЦИЯ СТАРТОВОЙ СТРАНИЦЫ */
+.menu {
+    margin: 0;
+    padding: 2rem;
+    box-sizing: border-box;
+
+    width: 600px;
+    height: 375px;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px 2px #223c5033;
+}
+
+.menu h1 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-size: 3rem;
+    font-weight: 300;
+    color: #02a0da;
+    text-transform: uppercase;
+    letter-spacing: 0rem;
+}
+
+.choice {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.choice span {
+    font-weight: 500;
+}
+
+.choice a {
+    width: 100%;
+    height: auto;
+
+    margin: 0;
+    padding: 0.2rem;
+    box-sizing: border-box;
+
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: #ffffff;
+    letter-spacing: 0rem;
+    text-decoration: none;
+    text-align: center;
+
+    background-color: #97cded;
+
+    transition: all 0.2s ease 0s;
+}
+
+.choice a:hover,
+.choice a:focus {
+    background-color: #02a0da;
+}
+
+.choice a:active {
+    transform: scale(0.98);
+}
+
+
+
+.author {
+    font-size: 1.6rem;
+}
+
+/* СТИЛИЗАЦИЯ ТАБЛИЦИ ЛИДЕРОВ ДЛЯ ЗРИТЕЛЕЙ */
+.leaderboard__table_wrapper {
+    display: block;
+    padding: 0;
+    margin: 0 auto;
+    box-shadow: 0px 0px 10px 2px #223c5033;
+}
+
+.leaderboard {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    width: 100vw;
+    height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.leaderboard__table_wrapper table {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 90%;
+    max-height: 60vh;
+
+    text-align: center;
+    font-size: 1rem;
+
+    border: none;
+    border-spacing: 0;
+
+    overflow-y: scroll;
+    background-color: #ffffff;
+}
+
+.leaderboard__table_wrapper table thead th,
+.leaderboard__table_wrapper table tbody td {
+    margin: 0;
+    padding: 0.15rem 0.50rem;
+    box-sizing: border-box;
+
+    min-width: 160px;
+    /* to enable "word-break: break-all" */
+    /* word-break: break-all; 4. */
+
+    cursor: default;
+}
+
+.leaderboard__table_wrapper table th {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0rem;
+    text-decoration: none;
+    text-align: center;
+
+
+}
+
+/* .leaderboard__table_wrapper table td {
+    
+} */
+
+.leaderboard__table_wrapper table thead {
+    display: block;
+    /* to take the same width as tr */
+    width: 100%;
+    /* - 17px because of the scrollbar width */
+    background-color: #02a0da;
+}
+
+.leaderboard__table_wrapper table tbody {
+    display: block;
+    max-height: 90vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.leaderboard__table_wrapper table tbody tr:nth-child(1),
+.leaderboard__table_wrapper table tbody tr:nth-child(2),
+.leaderboard__table_wrapper table tbody tr:nth-child(3),
+.leaderboard__table_wrapper table tbody tr:nth-child(4),
+.leaderboard__table_wrapper table tbody tr:nth-child(5) {
+    transition: all 0.3s ease 0s;
+}
+
+.leaderboard__table_wrapper table tbody tr:nth-child(1)._show {
+    background-color: #fec834a0;
+}
+
+.leaderboard__table_wrapper table tbody tr:nth-child(2)._show {
+    background-color: #cfcfcfa0;
+}
+.leaderboard__table_wrapper table tbody tr:nth-child(3)._show {
+    background-color: #cfcfcfa0;
+}
+.leaderboard__table_wrapper table tbody tr:nth-child(4)._show {
+    background-color: #e48157a0;
+}
+.leaderboard__table_wrapper table tbody tr:nth-child(5)._show {
+    background-color: #e48157a0;
+}
+
+.member {
+    text-align: left;
+    width: 350px;
+}
+
+.summary {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* СТИЛИ У АДМИНА */
+
+.adminpanel {
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+.lists__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    height: 80vh;
+    padding: 0.5rem 2rem;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.judges__list,
+.members__list {
+    padding: 0.5rem;
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 50%;
+    overflow: auto;
+
+    background-color: #c0c0c0;
+}
+
+.judges__list {
+    margin-bottom: 0.25rem;
+}
+.members__list {
+    margin-top: 0.25rem;
+}

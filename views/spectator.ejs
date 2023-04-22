@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap">
+    <title>Таблица лидеров</title>
+</head>
+
+<body id="leaderboard_body">
+    <header>
+        <nav class="control">
+            <div class="navigation">
+                <a href="/" class="to__main">На главную</a>
+            </div>
+            <div class="settinings">
+                <span class="settinings">Фон для трансляции</span>
+                <span class="switch-btn BGC"></span>
+                <span class="settinings">Показать лидеров</span>
+                <span class="switch-btn LB"></span>
+            </div>
+        </nav>
+
+    </header>
+    <main class="leaderboard">
+        <div class="leaderboard__table_wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="member">Участник</th>
+                        <th class="judge">Конкурс 1</th>
+                        <th class="judge">Конкурс 2</th>
+                        <th class="judge">Конкурс 3</th>
+                        <th class="judge">Конкурс 4</th>
+                        <th>Итог</th>
+                    </tr>
+                </thead>
+                <tbody id="members">
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+    </main>
+    <script>
+        let data
+        // Список участников
+        let new_membersList = {}
+        let old_membersList = {}
+        // Переключатель
+        let place_1st
+        let place_2nd
+        let place_3rd
+        const switcher_leaders = document.querySelector('.LB')
+        const switcher_bgc = document.querySelector('.BGC')
+        const elem_body = document.querySelector('#leaderboard_body')
+        // AJAX
+        let request = new XMLHttpRequest()
+        // Переключение - лидеры
+        const switcher_table = () => {
+            switcher_leaders.classList.toggle('switch-on')
+            place_1st.classList.toggle('_show')
+            place_2nd1.classList.toggle('_show')
+            place_2nd2.classList.toggle('_show')
+            place_3rd1.classList.toggle('_show')
+            place_3rd2.classList.toggle('_show')
+        }
+        const switcher_background = () => {
+            switcher_bgc.classList.toggle('switch-on')
+            elem_body.classList.toggle('_changeBGC')
+        }
+        switcher_leaders.addEventListener("click", (e) => {
+            switcher_table()
+        })
+        switcher_bgc.addEventListener("click", () => {
+            switcher_background()
+        })
+        function byFieldToUp(field) {
+            return (a, b) => a[field] > b[field] ? 1 : -1;
+        }
+        function byFieldToDown(field) {
+            return (a, b) => a[field] > b[field] ? -1 : 1;
+        }
+        const takeData = () => {
+            // получаем и парсим ответ сервера
+            request.open('POST', '/showmembers', true)
+            request.setRequestHeader(
+                'Content-Type',
+                'application/json'
+            )
+            request.addEventListener('load', () => {
+                let members = ``
+                data = JSON.parse(request.response)
+                let sum = 0
+                data.members.forEach(member => {
+                    console.log(member.points)
+                    for (let point of Object.values(member.points)) {
+                        sum += point;
+                    }
+                    member['sum'] = sum
+                    sum = 0
+                })
+                for (let salary of Object.values(data.members)) {
+                    sum += salary;
+                }
+                new_membersList = data.members.sort(byFieldToUp('number')).sort(byFieldToDown('sum'))
+                if (JSON.stringify(new_membersList) != JSON.stringify(old_membersList)) {
+                    old_membersList = new_membersList
+                    new_membersList.forEach(mamber => {
+                        let member_points = ``
+                        Object.values(mamber.points).forEach(elem => {
+                            if (elem == 0)
+                                member_points += `<td class="points"> </td>`
+                            else
+                                member_points += `<td class="points">${elem}</td>`
+                        })
+                        let member = `<tr>
+                            <td class="member">${mamber.number || " "}, ${mamber.fio || " "}</td>
+                            ${member_points}
+                            <td class="summary">${mamber.sum || " "}</td>
+                        </tr>`
+                        members += member
+                    })
+                    document.querySelector('#members').innerHTML = members
+                    place_1st = document.querySelector('#members tr:nth-child(1)')
+                    place_2nd1 = document.querySelector('#members tr:nth-child(2)')
+                    place_2nd2 = document.querySelector('#members tr:nth-child(3)')
+                    place_3rd1 = document.querySelector('#members tr:nth-child(4)')
+                    place_3rd2 = document.querySelector('#members tr:nth-child(5)')
+                }
+            })
+            request.send()
+        }
+        takeData()
+        // Вывод участников
+        setInterval(() => {
+            takeData()
+        }, 5000)
+    </script>
+</body>
+
+</html>

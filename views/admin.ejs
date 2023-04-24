@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap">
     <title>Таблица лидеров</title>
@@ -126,6 +126,7 @@
             <div class="accord_panel">
                 <div class="accord_item">
                     <button class="add_at_list" id="add_contest">Добавить конкурс</button>
+                    <button class="add_at_list">Итог</button>
                     <table>
                         <tbody>
                             <% if (data.contests) { %>
@@ -150,12 +151,16 @@
                     </table>
                 </div>
             </div>
+            <button class="accord_btn">Голосование</button>
+            <div class="accord_panel">
+                <div class="accord_item">
+                    <button class="add_at_list" id="votign_results">Результаты голосования</button>
+                    <button class="add_at_list" id="voting_start-stop">Запустить голосование</button>
+                    <button class="add_at_list" id="voting_reset">Сбросить результаты</button>
+                </div>
+            </div>
         </div>
     </main>
-    <footer>
-        <span class="author">Nikita Taranyuk</span>
-        <span class="tech">Node JS / Express JS / EJS</span>
-    </footer>
     <script>
         // Визуал
         let accords = document.querySelectorAll(".accord_btn");
@@ -187,7 +192,7 @@
                 xhr.onerror = () => {
                     reject(xhr.response);
                 }
-                if (body != null) JSON.stringify(body)
+                if (body != null) body = JSON.stringify(body)
                 xhr.send(body)
             })
         }
@@ -195,11 +200,23 @@
         // Кнопка добавить
         const btnAddJudge = document.querySelector('#add_judge')
         btnAddJudge.addEventListener('click', () => {
-            formTitle = document.querySelector('form[name="form_judge"]').firstElementChild
+            activeForm = document.querySelector('form[name="form_judge"]')
+            formTitle = activeForm.firstElementChild
             formTitle.innerHTML = "Добавить судью"
             document.querySelector('.add_or_edit_form').style.display = "flex"
             document.forms.form_judge.style.display = "flex"
             document.body.style.overflowY = 'hidden'
+            document.forms.form_judge.elements.addOrEdit.addEventListener('click', (event) => {
+                event.preventDefault();
+                req_body = {
+                    item_type: 'judge',
+                    judge_type: document.forms.form_judge.elements.judge_type.value,
+                    judge_fio: document.forms.form_judge.elements.judge_fio.value,
+                    judge_login: document.forms.form_judge.elements.judge_login.value,
+                    judge_pass: document.forms.form_judge.elements.judge_pass.value
+                }
+                sendRequest('POST', '/additem', req_body)
+            })
         })
         const btnAddMember = document.querySelector('#add_member')
         btnAddMember.addEventListener('click', () => {
@@ -282,7 +299,9 @@
             }
         }))
 
-
+        // Голосование
+        const showVotingResults = document.querySelector('#votign_results')
+        showVotingResults.addEventListener('click', () => window.open('/leaderboard/voting'))
 
 
         // функции сортировки

@@ -2,6 +2,7 @@ const fs = require('fs')
 const express = require('express')
 const uuid = require('uuid')
 const cookieParser = require('cookie-parser')
+const { log } = require('console')
 
 const app = express()
 const router = express.Router()
@@ -48,7 +49,7 @@ app.post('/auth', urlencodedParser, (request, response) => {
     } else if (data.administrator[0].login === request.body.userName) {
       if ((data.administrator[0].pass === request.body.userPassword)) {
         response.cookie('auth', `${data.administrator[0].token}`, {
-          maxAge: 72000 * 24,
+          maxAge: 5400 * 1000,
           secure: true,
         })
         response.redirect(`/adminpanel/${data.administrator[0].token}`)
@@ -71,30 +72,29 @@ app.use('/adminpanel/:token', (request, response) => {
     fs.readFile(__dirname + DB_file, function (error, data) {
       if (error) throw error // если возникла ошибка
       data = JSON.parse(data);
-      response.render('admin', {data})
+      response.render('admin', { data })
     })
   } else {
     response.redirect('/')
   }
 })
-app.post('/addmember', jsonParser, (request, response) => {
-  fs.promises.readFile(__dirname + DB_file).then(data => {
-    data = JSON.parse(data)
-    newmember = {
-      id: uuid.v4(),
-      number: Object.keys(data.members).length + 1,
-      fio: request.body.fio,
-    }
-    for (let i = 0; i < data.judges.length; i++)
-      newmember.points[`${data.judges[i].fio}`] = 0
-    data.members.push(newmember)
-    fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
-    response.status(200)
-  }).catch(err => {
-    console.log(err)
-  })
+
+app.post('/additem', jsonParser, (request, response) => {
+  if (request.cookies.auth == "a1d54557-fe54-4c1c-8085-c49f93b259b9") {
+    fs.promises.readFile(__dirname + DB_file).then(data => {
+      data = JSON.parse(data)
+      newItem = createItem(request.body)
+      if (request.body.item_type == "judge") data.judges.push(createItem(request.body))
+      fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
+      response.status(200)
+    }).catch(err => {
+      console.log(err)
+    })
+  } else {
+    response.redirect('/')
+  }
 })
-app.post('/editmember/:id', jsonParser, (request, response) => {
+app.patch('/edititem/:id', jsonParser, (request, response) => {
   fs.promises.readFile(__dirname + DB_file).then(data => {
     data = JSON.parse(data)
     data.members.find(member => member.id === request.params.id).fio = request.body.fio
@@ -116,91 +116,16 @@ app.delete('/removeitem/:id', jsonParser, (request, response) => {
     console.log(err)
   })
 })
-app.post('/removemember/:id', jsonParser, (request, response) => {
-  fs.promises.readFile(__dirname + DB_file).then(data => {
-    data = JSON.parse(data)
-    data.members = data.members.filter(member => member.id !== request.params.id)
-    fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
-    response.json()
-  }).catch(err => {
-    console.log(err)
-  })
-})
-app.post('/removeallmembers', jsonParser, (request, response) => {
-  fs.promises.readFile(__dirname + DB_file).then(data => {
-    data = JSON.parse(data)
-    data.members.length = 0
-    fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
-    response.json()
-  }).catch(err => {
-    console.log(err)
-  })
-})
-app.post('/addjudge', jsonParser, (request, response) => {
-  fs.promises.readFile(__dirname + DB_file).then(data => {
-    data = JSON.parse(data)
-    if (!(data.judges.find(judge => judge.fio === request.body.judge_fio))) {
-      if (!(data.judges.find(judge => judge.login === request.body.judge_login))) {
-        newjudge = {
-          id: uuid.v4(),
-          number: Object.keys(data.judges).length + 1,
-          fio: request.body.judge_fio,
-          login: request.body.judge_login,
-          pass: request.body.judge_pasword
-        }
-        data.judges.push(newjudge)
-        data.members.forEach(element => {
-          element.points[`${request.body.judge_fio}`] = ``
-        })
-        fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
-      }
-    }
-    response.json()
-  }).catch(err => {
-    console.log(err)
-  })
-})
-app.post('/editjudge/:id', jsonParser, (request, response) => {
-  fs.promises.readFile(__dirname + DB_file).then(data => {
-    data = JSON.parse(data)
-    data.judges.find(judge => judge.id === request.params.id).fio = request.body.fio
-    data.judges.find(judge => judge.id === request.params.id).login = request.body.login
-    data.judges.find(judge => judge.id === request.params.id).pass = request.body.pass
-    fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
-    response.json()
-  }).catch(err => {
-    console.log(err)
-  })
-})
-app.post('/removealljudges', jsonParser, (request, response) => {
-  fs.promises.readFile(__dirname + DB_file).then(data => {
-    data = JSON.parse(data)
-    data.judges.length = 0
-    fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
-    response.json()
-  }).catch(err => {
-    console.log(err)
-  })
-})
+
 
 // Роутинг члена жюри
 app.get('/judge/:id', jsonParser, (request, response) => {
   if (request.cookies.auth == request.params.id) {
     fs.promises.readFile(__dirname + DB_file).then(data => {
       data = JSON.parse(data)
-      judge = data.judges.find(judge => judge.id === request.params.id)
-      let memberslist = []
-      data.members.forEach(elem => {
-        let member = {}
-        member['id'] = elem.id,
-        member['number'] = elem.number,
-        member['name'] = elem.fio
-        memberslist.push(member)
-      })
-      let contests = data.contests
-      setTimeout(() => {
-        response.render('judge', { memberslist, judge, contests })
-      }, 1000)
+      let tabels = data.results_tables.find(table => table.tablename === 'I этап')
+      console.log(tabels)
+      response.render('judge', {  })
     }).catch(err => {
       console.log(err)
     })
@@ -225,8 +150,8 @@ app.post('/rate/:id', jsonParser, (request, response) => {
   response.sendStatus(200)
 })
 
-// Роутинг зрителя
-app.get('/leaderboard', jsonParser, (request, response) => {
+// Роутинг результатов
+app.get('/leaderboard/main', jsonParser, (request, response) => {
   fs.readFile(__dirname + DB_file, function (error, data) {
     if (error) throw error // если возникла ошибка
     data = JSON.parse(data);
@@ -234,19 +159,51 @@ app.get('/leaderboard', jsonParser, (request, response) => {
     response.render('spectator', { members })
   })
 })
-
-app.post('/showmembers', jsonParser, function (request, response) {
-  fs.readFile(__dirname + DB_file, function (error, data) {
-    if (error) throw error // если возникла ошибка
-    data = JSON.parse(data);
-    response.json(data)
+app.get('/leaderboard/voting', jsonParser, (request, response) => {
+  fs.promises.readFile(__dirname + DB_file).then(data => {
+    data = JSON.parse(data)
+    votingResults = data.results_tables.find(table => table.tablename === "voting")
+    response.render('voting', { votingResults })
+  }).catch(err => {
+    console.log(err)
   })
 })
 
 // Роутинг голосования
-app.use('/voting', jsonParser, (request, response) => {
-  console.log(request.ip)
-  response.sendStatus(200)
+app.get('/voting', jsonParser, (request, response) => {
+  fs.promises.readFile(__dirname + DB_file).then(data => {
+    data = JSON.parse(data)
+    if (!(data.clients_ip.find(client => client === request.ip)) && !request.cookies.vote) {
+      votingResults = data.results_tables.find(table => table.tablename === "voting")
+      response.render('vote', { votingResults })
+    } else {
+      messeage = "Вы уже проголосовали."
+      response.render('vote_end', { messeage })
+    }
+  }).catch(err => {
+    console.log(err)
+  })
+})
+app.post('/voting', urlencodedParser, (request, response) => {
+  fs.promises.readFile(__dirname + DB_file).then(data => {
+    data = JSON.parse(data)
+    if (!(data.clients_ip.find(client => client === request.ip)) && !request.cookies.vote) {
+      data.clients_ip.push(request.ip)
+      response.cookie('vote', `${uuid.v4()}`, {
+        maxAge: 72000 * 24,
+        secure: true,
+      })
+      ++data.results_tables.find(table => table.tablename === "voting").tableinner[request.body.member]
+      fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
+      messeage = "Ваш голос учтён."
+      response.render('vote_end', { messeage })
+    } else {
+      messeage = "Вы уже проголосовали."
+      response.render('vote_end', { messeage })
+    }
+  }).catch(err => {
+    console.log(err)
+  })
 })
 
 
@@ -258,3 +215,22 @@ app.use('/', (request, response) => {
 app.listen(3300, () => {
   console.log('Server started: http://127.0.0.1:3300')
 })
+
+function createItem(item) {
+  let newItem = {}
+  switch (item.item_type) {
+    case "judge":
+      newItem = {
+        id: uuid.v4(),
+        type: item.judge_type,
+        fio: item.judge_fio,
+        login: item.judge_login,
+        pass: item.judge_pass
+      }
+      break;
+  
+    default:
+      break;
+  }
+  return newItem
+}

@@ -1,0 +1,1 @@
+console.log(require('crypto').randomBytes(128).toString('hex'))

@@ -126,7 +126,7 @@
             <div class="accord_panel">
                 <div class="accord_item">
                     <button class="add_at_list" id="add_contest">Добавить конкурс</button>
-                    <button class="add_at_list">Итог</button>
+                    <button class="add_at_list" id="show_main">Итог</button>
                     <table>
                         <tbody>
                             <% if (data.contests) { %>
@@ -176,8 +176,6 @@
             });
         });
         // Запросы и ответы
-        let new_List = {}
-        let old_List = {}
         let xhr = new XMLHttpRequest()
         // отправка данных
         function sendRequest(method, requestURL, body = null) {
@@ -302,6 +300,10 @@
         // Голосование
         const showVotingResults = document.querySelector('#votign_results')
         showVotingResults.addEventListener('click', () => window.open('/leaderboard/voting'))
+        // Показать результаты
+        document.querySelector('#show_main').addEventListener('click', () => {
+            window.open('/leaderboard/main')
+        })
 
 
         // функции сортировки

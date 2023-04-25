@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/new.css">
+    <title>Таблица лидеров</title>
+</head>
+
+<body>
+    <section class="judge">
+        <div class="judge__wrapper">
+            <h2 class="page_title" id="<%= judge.id %>">Вы вошли как <%= judge.fio %></h2>
+            <table class="custom__table">
+                <thead>
+                    <tr>
+                        <th>Участник</th>
+                        <th>第一环节</th>
+                        <th>第二环节</th>
+                        <th>第三环节</th>
+                        <th>第四环节</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% members.forEach(member => { %>
+                        <tr id="<%= member.id %>">
+                            <td style="text-align: center;"><%= member.number %></td>
+                            <% contests.forEach(contest => { %>
+                                <% if (contest.status == "edit") { %>
+                                <td>
+                                    <select id="sm_<%= contest.id %>" style="width: 100%;">
+                                        <option value="" selected disabled="disabled"></option>
+                                        <% let i = contest.min_points %>
+                                        <% for (i; i <= contest.max_points; i++) { %>
+                                            <option value="<%= i %>"><%= i %></option>
+                                        <% } %>
+                                    </select>
+                                </td>
+                                <% } else if (contest.status == "marked") { %>
+                                    <td></td>
+                                <% } %>
+                            <% }) %>
+                        </tr>
+                    <% }) %>
+                </tbody>
+                <tfoot>
+                    <td></td>
+                    <% contests.forEach(contest => { %>              
+                        <td>
+                            <button class="confirm_mark" id="btn-confirm_<%= contest.id %>">确定</button>
+                        </td>
+                    <% }) %>
+                </tfoot>
+            </table>
+        </div>
+    </section>
+</body>
+
+<script>
+    // отправка оценки
+    document.querySelectorAll('.confirm_mark').forEach(confirmBtn => {
+        let contest_id
+        confirmBtn.addEventListener('click', () => {
+            contest_id = confirmBtn.id.slice(12)
+            let marks_filds = document.querySelectorAll(`#sm_${contest_id}`)
+            let marks = {
+                    contestId: contest_id,
+                    results: {}
+                }
+            let checkEmptySelect = true
+            marks_filds.forEach(mark => {
+                if (mark.value == '') checkEmptySelect = false
+            })
+            if (checkEmptySelect) {
+                areYourShureAbouThat = confirm('Подтвердите выставленные оценки за конкурс.')
+                if (areYourShureAbouThat) {
+                    marks_filds.forEach(mark => {
+                       confirmBtn.setAttribute('disabled', 'disabled')
+                        confirmBtn.style.opacity = "0.5"
+                        mark.setAttribute('disabled', 'disabled')
+                        marks.results[mark.parentElement.parentElement.id] = mark.value
+                    })
+                    sendRequest('PATCH', `/judge/${document.querySelector('.page_title').id}`, marks)
+                }
+            } else alert("Проставте оценки каждому участнику конкурса перед отправкой!")
+        })
+    })
+    let xhr = new XMLHttpRequest()
+        // отправка данных
+        function sendRequest(method, requestURL, body = null) {
+            return new Promise((resolve, reject) => {
+                xhr.open(method, requestURL)
+                xhr.responseType = "json"
+                xhr.setRequestHeader('Content-Type', 'application/json')
+                xhr.onload = () => {
+                    if (xhr.status >= 400) reject(xhr.response);
+                    else resolve(xhr.response);
+                }
+                xhr.onerror = () => {
+                    reject(xhr.response);
+                }
+                if (body != null) body = JSON.stringify(body)
+                xhr.send(body)
+            })
+        }
+</script>
+
+</html>

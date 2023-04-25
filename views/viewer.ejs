@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/new.css">
+    <title>Таблица лидеров</title>
+</head>
+
+<body>
+    <section class="viewer">
+        <div class="viewer__wrapper">
+            <div class="tabs">
+                <% let i = 0%>
+                <% contests.forEach(contest => { %>             
+                <input type="radio" name="tabs" id="<%= contest.id %>">
+                <label for="<%= contest.id %>">Конкурс №<%= ++i %></label>
+                <div class="tab">
+                    <table class="custom__table">
+                        <thead>
+                            <tr>
+                                <th>Участник</th>
+                                <th>Судья 1</th>
+                                <th>Судья 2</th>
+                                <th>Судья 3</th>
+                                <th style="background: var(--color-4);">ИТОГ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% members.forEach(member => { %>
+                                <tr id="<%= member.id %>">
+                                    <td><%= member.number %></td>
+                                        <% let contest_point = 0 %>
+                                        <% for (let anotherKey in member.points[contest.id]) { %>
+                                            <td style="text-align: center;"><%= member.points[contest.id][anotherKey] %></td>
+                                            <% contest_point += member.points[contest.id][anotherKey] %>
+                                        <% } %>
+                                        <td style="text-align: center; font-weight: 700;"><%= contest_point %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+                <% }) %>
+
+                <input type="radio" name="tabs" id="tabfree" checked="checked">
+                <label for="tabfree">Итог - личный зачёт</label>
+                <div class="tab">
+                    <table class="custom__table">
+                        <thead>
+                            <tr>
+                                <th>Участник</th>
+                                <th>I этап</th>
+                                <th>II этап</th>
+                                <th>III этап</th>
+                                <th>IV этап</th>
+                                <th style="background: var(--color-4);">ИТОГ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% members.forEach(member => { %>
+                                <tr id="<%= member.id %>">
+                                    <td><%= member.number %></td>
+                                    <% for (let key in member.points) { %>
+                                        <% let contest_point = 0 %>
+                                        <% for (let anotherKey in member.points[key]) { %>
+                                            <% contest_point += member.points[key][anotherKey] %>
+                                        <% } %>
+                                        <td style="text-align: center;"><%= contest_point  %></td>
+                                    <% } %>
+                                    <td style="text-align: center; font-weight: 700;"><%= member.sum %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <input type="radio" name="tabs" id="tabfour">
+                <label for="tabfour">Голосование</label>
+                <div class="tab">
+                    <% if (votingResults) { %>
+                        <div class="content_wrapper">
+                           <% for (let key in votingResults.tableinner) { %>
+                            <div class="vote_item">
+                                <span class="member"><%= key %></span>
+                                <span class="votes"><%= votingResults.tableinner[key] %></span>
+                                <div class="progress"></div>
+                            </div>
+                           <% } %>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+<script>
+    let vote_items = document.querySelectorAll('.vote_item')
+    let votes_cont = document.querySelectorAll('.votes')
+    let allVotes = 0
+    let maxVotes = 0
+    let progressWidth = 0
+    votes_cont.forEach(item => {
+        allVotes += Number(item.innerHTML)
+        if (maxVotes < Number(item.innerHTML)) maxVotes = Number(item.innerHTML)
+    })
+
+    vote_items.forEach(item => {
+        console.log(Math.round(Number(item.querySelector('.votes').innerHTML) * 100 / allVotes));
+        item.querySelector('.progress').style.width = `${Math.round((Number(item.querySelector('.votes').innerHTML) * 100 / allVotes))}%`
+        if (maxVotes == Number(item.querySelector('.votes').innerHTML)) item.querySelector('.progress').style.background = "var(--color-6)"
+    })
+</script>
+
+</html>

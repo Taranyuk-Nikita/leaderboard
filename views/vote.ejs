@@ -5,42 +5,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/new.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap">
     <title>Таблица лидеров</title>
 </head>
 
-<body>
-    <main>
-        <% if (votingResults) { %>
-        <div class="content_wrapper">
-            <form name="vote_member" method="post" action="/voting">
-            <select name="member">
-                <option value="" selected disabled="disabled"></option>
-                <% for (let key in votingResults.tableinner) { %>
-                    <option value="<%= key %>"><%= key %></option>
-                <% } %>
-            </select>
-            <input type="submit" value="Голосовать" class="vote_submit">
-            </form>
-        </div>
-        <% } %>
-    </main>
-    <footer>
-        <span class="author">Nikita Taranyuk</span>
-        <span class="tech">Node JS / Express JS / EJS</span>
-    </footer>
-    <script>
-        // функции сортировки
-        function byFieldToUp(field) {
-            return (a, b) => a[field] > b[field] ? 1 : -1;
-        }
-        function byFieldToDown(field) {
-            return (a, b) => a[field] > b[field] ? -1 : 1;
-        }
-    </script>
-
+<body style="background-image: url('/img/1117.jpg');">
+    <% if (votingResults) { %>
+    <div class="content_wrapper">
+        <form name="vote_member" method="post" action="/voting">
+        <select name="member">
+            <option value="" selected disabled="disabled">Выберете номер участника</option>
+            <% for (let key in votingResults.tableinner) { %>
+                <option value="<%= key %>"><%= key %></option>
+            <% } %>
+        </select>
+        <input type="submit" value="Голосовать" class="vote_submit">
+        </form>
+    </div>
+    <% } %>
 </body>
 
 </html>

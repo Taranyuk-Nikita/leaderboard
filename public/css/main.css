@@ -155,6 +155,51 @@ footer {
     opacity: 0.5;
 }
 
+/* ПЕРЕКЛЮЧАТЕЛЬ */
+.switch-btn {
+    display: inline-block;
+    width: 72px;
+    /* ширина */
+    height: 38px;
+    /* высота */
+    background: #b8afc9;
+    /* цвет фона */
+    z-index: 0;
+    margin: 0 0 0 1rem;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition-duration: 300ms;
+    /* анимация */
+}
+
+.switch-btn::after {
+    content: "";
+    height: 32px;
+    /* высота кнопки */
+    width: 32px;
+    /* ширина кнопки */
+    background: #fff;
+    /* цвет кнопки */
+    top: 3px;
+    /* положение кнопки по вертикали относительно основы */
+    left: 3px;
+    /* положение кнопки по горизонтали относительно основы */
+    transition-duration: 300ms;
+    /* анимация */
+    position: absolute;
+    z-index: 1;
+}
+
+.switch-on {
+    background: #02a0da;
+}
+
+.switch-on::after {
+    left: 37px;
+}
+
 /* ФОРМА */
 
 .add_or_edit_form {
@@ -327,6 +372,17 @@ th {
 
 th {
     background-color: var(--color-4);
+}
+
+.point {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+}
+.summary {
+    text-align: center;
+    font-size: 1.15rem;
+    font-weight: 700;
 }
 
 .accord_panel button {

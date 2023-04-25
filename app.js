@@ -22,10 +22,6 @@ app.use(morgan(':method :url :status :res[content-lenght] - :response-time ms'))
 // Проба в локальную сеть
 const PORT = 3300
 const LOCALHOST = '127.0.0.1'
-// const LOCALHOST = Object.keys(ifaces).reduce((host, ifname) => {
-//   let iface = ifaces[ifname].find(iface => !('IPv4' !== iface.family || iface.internal !== false));
-//   return iface ? iface.address : host;
-// }, '127.0.0.1');
 
 const accessTokenSecret = '814fe03b0eb538f08d91a603cf90c7b8b7669a5db20713f722671b8298a2d5fb51d232fd3a6eb0a47dbe214a942fb267b8127e6e345445e17ca8466b8fed21d4d7e125824d91067c910475b7581eca552f8b5892eda566129750bb3864611b8e8e133fa8317c82a0e73705a9f1f03431a5ea329b4ee48e118365af76dda764ae';
 const refreshTokenSecret = '255e7eacf54053e0cc2e3d1d1fc6a6e3751b581e6494f95596cfc00f7b97d7816a7ad548c3bc1edb791e841e5e8fb484b94080fe4a5305d75ee0807e8cab06430a8c92cc3b3b3c7b4830d3d31cd76ee9ecf19c11c9526a44b31866e7300a2f1e3cfd7637bd2e9d7a1fa1e8c70d796080a080a832f8007af158477d9115eb15f3';
@@ -96,45 +92,6 @@ app.get('/adminpanel', jsonParser, authenticateJWT, (request, response) => {
     response.redirect('/leaderboard')
   })
 })
-
-app.post('/additem', (request, response) => {
-  if (request.cookies.auth == "a1d54557-fe54-4c1c-8085-c49f93b259b9") {
-    fs.promises.readFile(__dirname + DB_file).then(data => {
-      data = JSON.parse(data)
-      newItem = createItem(request.body)
-      if (request.body.item_type == "judge") data.judges.push(createItem(request.body))
-      fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
-      response.status(200)
-    }).catch(err => {
-      console.log(err)
-    })
-  } else {
-    response.redirect('/')
-  }
-})
-app.patch('/edititem/:id', (request, response) => {
-  fs.promises.readFile(__dirname + DB_file).then(data => {
-    data = JSON.parse(data)
-    data.members.find(member => member.id === request.params.id).fio = request.body.fio
-    fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
-    response.json()
-  }).catch(err => {
-    console.log(err)
-  })
-})
-app.delete('/removeitem/:id', (request, response) => {
-  fs.promises.readFile(__dirname + DB_file).then(data => {
-    data = JSON.parse(data)
-    data.judges = data.judges.filter(item => item.id != request.params.id)
-    data.members = data.members.filter(item => item.id != request.params.id)
-    data.contests = data.contests.filter(item => item.id != request.params.id)
-    response.status(200)
-    return fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
-  }).catch(err => {
-    console.log(err)
-  })
-})
-
 
 // Роутинг члена жюри
 app.get('/judge/:id', authenticateJWT, (request, response) => {

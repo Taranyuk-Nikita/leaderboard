@@ -17,7 +17,7 @@
             <div class="navigation">
                 <a href="/" class="to__main">На главную</a>
             </div>
-            <span class="page_title">Вы вошли как </span>
+            <span class="page_title" id="<%= judge.id %>">Вы вошли как <%= judge.fio %></span>
         </nav>
     </header>
     <main class="adminpanel">
@@ -33,34 +33,70 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr id="">
-                        <td>Никита Таранюк или кто побольше</td>
+                    <tr id="00fff869-d5a2-4767-b91e-37fadbb517fb">
+                        <td>Агапов Андрей</td>
                         <td>
-                            <select id="contest1-id" style="width: 100%;">
+                            <select id="a5bbc8b4-a495-413b-ad4f-3f8d34a44514" style="width: 100%;">
                                 <option value="" selected disabled="disabled"></option>
                                 <option value="0">0</option>
                                 <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </td>
                         <td>
-                            <select id="contest2-id" style="width: 100%;">
+                            <select id="3471fd37-4f89-4832-9ab3-31d7e255be73" style="width: 100%;">
                                 <option value="" selected disabled="disabled"></option>
                                 <option value="0">0</option>
                                 <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </td>
                         <td>
-                            <select id="contest3-id" style="width: 100%;">
+                            <select id="afbcd039-0f93-4bd1-b25e-18feefd20c64" style="width: 100%;">
                                 <option value="" selected disabled="disabled"></option>
                                 <option value="0">0</option>
                                 <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </td>
                         <td>
-                            <select id="contest4-id" style="width: 100%;">
+                            <select id="86528315-ff6a-4e51-b01a-934bcf9f16a2" style="width: 100%;">
                                 <option value="" selected disabled="disabled"></option>
                                 <option value="0">0</option>
                                 <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </td>
                     </tr>
@@ -69,16 +105,16 @@
                     <tr id="">
                         <td></td>
                         <td>
-                            <button class="confirm_mark">Подтверить</button>
+                            <button class="confirm_mark" id="btn-confirm_a5bbc8b4-a495-413b-ad4f-3f8d34a44514">Подтверить</button>
                         </td>
                         <td>
-                            <button class="confirm_mark">Подтверить</button>
+                            <button class="confirm_mark" id="btn-confirm_3471fd37-4f89-4832-9ab3-31d7e255be73">Подтверить</button>
                         </td>
                         <td>
-                            <button class="confirm_mark">Подтверить</button>
+                            <button class="confirm_mark" id="btn-confirm_afbcd039-0f93-4bd1-b25e-18feefd20c64">Подтверить</button>
                         </td>
                         <td>
-                            <button class="confirm_mark">Подтверить</button>
+                            <button class="confirm_mark" id="btn-confirm_86528315-ff6a-4e51-b01a-934bcf9f16a2">Подтверить</button>
                         </td>
                     </tr>
                 </tfoot>
@@ -100,7 +136,6 @@
             }
         });
     });
-    let request = new XMLHttpRequest()
     // функции сортировки
     function byFieldToUp(field) {
         return (a, b) => a[field] > b[field] ? 1 : -1;
@@ -109,24 +144,46 @@
         return (a, b) => a[field] > b[field] ? -1 : 1;
     }
     // отправка оценки
-    document.querySelectorAll('.confirmMark').forEach(confirmBtn => {
+    document.querySelectorAll('.confirm_mark').forEach(confirmBtn => {
+        let contest_id
         confirmBtn.addEventListener('click', () => {
-            areYourShureAbouThat = confirm('Подтвердите оценку')
+            contest_id = confirmBtn.id.slice(12)
+            let marks_filds = document.querySelectorAll(`#${contest_id}`)
+            let marks = {
+                    contestId: contest_id,
+                    results: {}
+                }
+            areYourShureAbouThat = confirm('Подтвердите выставленные оценки за конкурс.')
             if (areYourShureAbouThat) {
-                memberMark = document.forms[`${confirmBtn.id}`].elements['addPoints'].value
-                judgefio = ``;
-                member = JSON.stringify({
-                    id: confirmBtn.id,
-                    name: confirmBtn.dataset.memberName,
-                    mark: memberMark,
-                    judge: judgefio
+                marks_filds.forEach(mark => {
+                    confirmBtn.setAttribute('disabled', 'disabled')
+                    confirmBtn.style.opacity = "0.5"
+                    mark.setAttribute('disabled', 'disabled')
+                    marks.results[mark.parentElement.parentElement.id] = mark.value
                 })
-                request.open("POST", `/rate/${document.getElementsByName('judge').id}`, true);
-                request.setRequestHeader("Content-Type", "application/json");
-                request.send(member);
+                console.log(marks);
+                sendRequest('PATCH', `/judge/${document.querySelector('.page_title').id}`, marks)
             }
         })
     })
+    let xhr = new XMLHttpRequest()
+        // отправка данных
+        function sendRequest(method, requestURL, body = null) {
+            return new Promise((resolve, reject) => {
+                xhr.open(method, requestURL)
+                xhr.responseType = "json"
+                xhr.setRequestHeader('Content-Type', 'application/json')
+                xhr.onload = () => {
+                    if (xhr.status >= 400) reject(xhr.response);
+                    else resolve(xhr.response);
+                }
+                xhr.onerror = () => {
+                    reject(xhr.response);
+                }
+                if (body != null) body = JSON.stringify(body)
+                xhr.send(body)
+            })
+        }
 </script>
 
 </html>

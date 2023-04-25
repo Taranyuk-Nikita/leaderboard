@@ -2,7 +2,6 @@ const fs = require('fs')
 const express = require('express')
 const uuid = require('uuid')
 const cookieParser = require('cookie-parser')
-const { log } = require('console')
 
 const app = express()
 const router = express.Router()
@@ -17,7 +16,13 @@ app.set('trust proxy', true)
 
 // База участников
 const DB_file = '/storage/db-26.json'
-
+// Токен админа
+fs.promises.readFile(__dirname + DB_file).then(data => {
+  data = JSON.parse(data)
+  const adminToken = data.administrator[0].token
+}).catch(err => {
+  console.log(err)
+})
 // Роут авторизации
 app.get('/auth', urlencodedParser, (request, response) => {
   fs.promises.readFile(__dirname + DB_file).then(data => {
@@ -38,7 +43,7 @@ app.post('/auth', urlencodedParser, (request, response) => {
     if (data.judges.find(judge => judge.login === request.body.userName)) {
       if (data.judges.find(judge => judge.login === request.body.userName).pass == request.body.userPassword) {
         response.cookie('auth', `${data.judges.find(judge => judge.login === request.body.userName).id}`, {
-          maxAge: 72000 * 24,
+          maxAge: 5400 * 1000,
           secure: true,
         })
         response.redirect(`/judge/${data.judges.find(judge => judge.login === request.body.userName).id}`)
@@ -48,11 +53,11 @@ app.post('/auth', urlencodedParser, (request, response) => {
       }
     } else if (data.administrator[0].login === request.body.userName) {
       if ((data.administrator[0].pass === request.body.userPassword)) {
-        response.cookie('auth', `${data.administrator[0].token}`, {
+        response.cookie('auth', `${adminToken}`, {
           maxAge: 5400 * 1000,
           secure: true,
         })
-        response.redirect(`/adminpanel/${data.administrator[0].token}`)
+        response.redirect(`/adminpanel/${adminToken}`)
       } else {
         response.clearCookie('auth')
         response.send(`Неверный пароль!`)
@@ -123,9 +128,11 @@ app.get('/judge/:id', jsonParser, (request, response) => {
   if (request.cookies.auth == request.params.id) {
     fs.promises.readFile(__dirname + DB_file).then(data => {
       data = JSON.parse(data)
-      let tabels = data.results_tables.find(table => table.tablename === 'I этап')
-      console.log(tabels)
-      response.render('judge', {  })
+      judge = {
+        id: data.judges.find(judge => judge.id === request.params.id).id,
+        fio: data.judges.find(judge => judge.id === request.params.id).fio
+      }
+        response.render('judge', { judge })
     }).catch(err => {
       console.log(err)
     })
@@ -134,20 +141,27 @@ app.get('/judge/:id', jsonParser, (request, response) => {
     response.redirect('/judgeauth')
   }
 })
-app.post('/rate/:id', jsonParser, (request, response) => {
-  if (!request.body) return response.sendStatus(400)
+app.patch('/judge/:id', jsonParser, (request, response) => {
+  if (!request.body) return response.sendStatus(404)
   fs.promises.readFile(__dirname + DB_file).then(data => {
     data = JSON.parse(data)
-    data.members.find(member => member.id === request.body.id).points[request.body.judge] = Number(request.body.mark)
-    points = Object.values(data.members.find(member => member.id === request.body.id).points)
-    sum = 0
-    points.forEach(point => sum += point)
-    data.members.find(member => member.id === request.body.id).sum = sum
-    fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
+    if (data.contests.find(contest => contest.id === request.body.contestId).status[request.params.id] === "edit") {
+      newTableInner = data.results_tables.find(table => table.tablename === `results_${request.body.contestId}`).tableinner
+      let property
+      for (let i = 0; i < Object.keys(request.body.results).length; i++) {
+        property = Object.keys(request.body.results)[i]
+        newTableInner[property] += Number(Object.values(request.body.results)[i])
+      } 
+      data.results_tables.find(table => table.tablename === `results_${request.body.contestId}`).tableinner = newTableInner
+      data.contests.find(contest => contest.id === request.body.contestId).status[request.params.id] = "marked"
+      fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
+      response.sendStatus(200)
+    } else {
+      response.sendStatus(204)
+    }
   }).catch(err => {
     console.log(err)
   })
-  response.sendStatus(200)
 })
 
 // Роутинг результатов

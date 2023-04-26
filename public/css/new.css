@@ -1,5 +1,5 @@
 :root {
-    --color-1: #fefefe;
+    --color-1: #f8f8f8;
     --color-2: #0060aa;
     --color-3: #005a98;
     --color-4: #fdd186;
@@ -145,12 +145,21 @@ body {
     background-attachment: fixed;
 }
 
-.content_wrapper,
 .auth_form__wrapper {
     width: 40%;
     min-width: 320px;
     max-width: 475px;
     background: var(--color-1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.vote_wrapper {
+    min-width: 320px;
+    max-width: 640px;
+    background: var(--color-1);
+    padding: 1rem;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -223,8 +232,8 @@ body {
     background: var(--color-4);
 }
 
-.content_wrapper select {
-    font-size: 1.6rem;
+.vote_wrapper select {
+    font-size: 1.25.rem;
     padding: 0.25rem 0.5rem;
     margin: 0 0 1rem 0;
     width: 100%;
@@ -232,21 +241,21 @@ body {
     cursor: pointer;
 }
 
-.content_wrapper input[type="submit"] {
+.vote_wrapper input[type="submit"] {
     width: 100%;
     padding: 0.5rem;
     color: #ffffff;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 700;
     background-color: var(--color-3);
     cursor: pointer;
 }
 
-.content_wrapper input[type="submit"]:hover {
+.vote_wrapper input[type="submit"]:hover {
     background-color: var(--color-2);
 }
 
-.content_wrapper input[type="submit"]:active {
+.vote_wrapper input[type="submit"]:active {
     background-color: var(--color-5);
 }
 
@@ -277,6 +286,7 @@ body {
     display: none;
     padding: 1rem;
     background: #fff;
+    border: 5px solid var(--color-4);
 }
 
 .tabs input[type="radio"] {
@@ -284,8 +294,8 @@ body {
 }
 
 .tabs input[type="radio"]:checked+label {
-    color: #000000;
-    background: #ffffff;
+    color: var(--color-6);
+    background: var(--color-4);
 }
 
 .tabs input[type="radio"]:checked+label+.tab {
@@ -294,16 +304,26 @@ body {
 
 /* СУДЬЯ */
 .judge__wrapper {
-    margin: 3rem;
-    padding: 0.25rem;
+    margin: 3rem 12rem;
     box-sizing: border-box;
     overflow: hidden;
     background: #ffffff;
+    border: 5px solid var(--color-4);
+}
+
+.page_title {
+    color: #ca3024;
+    background-color: #fdd186;
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding: 0.5rem 2.5rem;
 }
 
 .custom__table {
     width: 100%;
     border: none;
+    border-spacing: 0;
+    padding-bottom: .25rem;
 }
 
 .custom__table select {
@@ -314,12 +334,12 @@ body {
 }
 
 .custom__table button {
-    display: inline-block;
-    width: 100%;
+    display: block;
+    width: 90%;
     background: var(--color-3);
     padding: .5rem 2rem;
     color: #ffffff;
-    margin: 0.5rem 0;
+    margin: 0 auto;
 }
 
 .custom__table button:hover {
@@ -336,20 +356,24 @@ body {
 
 .custom__table thead th {
     font-weight: bold;
-    text-align: left;
+    text-align: center;
     border: none;
-    padding: 0.25rem 0.5rem;
+    padding: 0.5rem 0.5rem;
     background: var(--color-3);
     color: #ffffff;
     font-size: 1.5rem;
 }
 
 .custom__table tbody td {
-    text-align: left;
+    text-align: center;
     border: none;
-    padding: 0.25rem 0.5rem;
+    padding: 0.5rem 0.5rem;
     font-size: 1.5rem;
     vertical-align: middle;
+}
+
+.custom__table tbody tr:nth-child(even) {
+    background-color: var(--color-1);
 }
 
 .custom__table thead tr th:first-child,
@@ -366,7 +390,6 @@ body {
 
 .content_wrapper {
     font-size: 1rem;
-    max-width: 480px;
     margin: 0 auto;
     padding: 1rem;
 }

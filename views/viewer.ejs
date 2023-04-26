@@ -21,16 +21,18 @@
                     <table class="custom__table">
                         <thead>
                             <tr>
+                                <th>Команда</th>
                                 <th>Участник</th>
                                 <th>Судья 1</th>
                                 <th>Судья 2</th>
                                 <th>Судья 3</th>
-                                <th style="background: var(--color-4);">ИТОГ</th>
+                                <th style="background: var(--color-4); color: var(--color-6);">ИТОГ</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% members.forEach(member => { %>
                                 <tr id="<%= member.id %>">
+                                    <td><%= member.team %></td>
                                     <td><%= member.number %></td>
                                         <% let contest_point = 0 %>
                                         <% for (let anotherKey in member.points[contest.id]) { %>
@@ -45,8 +47,8 @@
                 </div>
                 <% }) %>
 
-                <input type="radio" name="tabs" id="tabfree" checked="checked">
-                <label for="tabfree">Итог - личный зачёт</label>
+                <input type="radio" name="tabs" id="leaders_member" checked="checked">
+                <label for="leaders_member">Итоги - личный зачёт</label>
                 <div class="tab">
                     <table class="custom__table">
                         <thead>
@@ -55,12 +57,11 @@
                                 <th>I этап</th>
                                 <th>II этап</th>
                                 <th>III этап</th>
-                                <th>IV этап</th>
-                                <th style="background: var(--color-4);">ИТОГ</th>
+                                <th style="background: var(--color-4); color: var(--color-6);">ИТОГ</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <% members.forEach(member => { %>
+                            <% sortMembers.forEach(member => { %>
                                 <tr id="<%= member.id %>">
                                     <td><%= member.number %></td>
                                     <% for (let key in member.points) { %>
@@ -71,6 +72,33 @@
                                         <td style="text-align: center;"><%= contest_point  %></td>
                                     <% } %>
                                     <td style="text-align: center; font-weight: 700;"><%= member.sum %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <input type="radio" name="tabs" id="leaders_team">
+                <label for="leaders_team">Итоги - командный зачёт</label>
+                <div class="tab">
+                    <table class="custom__table">
+                        <thead>
+                            <tr>
+                                <th>Команда</th>
+                                <th>I этап</th>
+                                <th>II этап</th>
+                                <th>III этап</th>
+                                <th style="background: var(--color-4); color: var(--color-6);">ИТОГ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% teams.forEach(team => { %>
+                                <tr>
+                                    <td><%= team.team %></td>
+                                    <% for (let key in team.points) { %>
+                                        <td><%= team.points[key] %></td>
+                                    <% } %>
+                                    <td style="text-align: center; font-weight: 700;"><%= team.sum %></td>
                                 </tr>
                             <% }) %>
                         </tbody>

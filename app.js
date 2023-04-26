@@ -43,7 +43,7 @@ const authenticateJWT = (request, response, next) => {
 
 
 // База участников
-const DB_file = '/storage/db-26.json'
+const DB_file = '/storage/db-27.json'
 
 // Роут авторизации
 app.post('/auth', (request, response) => {
@@ -57,9 +57,8 @@ app.post('/auth', (request, response) => {
       const refreshToken = jwt.sign({ username: user.login, userid: user.id }, refreshTokenSecret);
       refreshTokens.push(refreshToken);
       response.cookie("user_token", accessToken, {
-        secure: true,
         httpOnly: true,
-        maxAge: 5400 * 1000,
+        maxAge: 10800 * 1000,
         path: `/judge/${user.id}`,
         domain: LOCALHOST
       })
@@ -69,9 +68,8 @@ app.post('/auth', (request, response) => {
       const refreshToken = jwt.sign({ username: data.administrator[0].login, userid: data.administrator[0].token }, refreshTokenSecret);
       refreshTokens.push(refreshToken);
       response.cookie("user_token", accessToken, {
-        secure: true,
         httpOnly: true,
-        maxAge: 5400 * 1000,
+        maxAge: 10800 * 1000,
         path: `/`,
         domain: LOCALHOST
       })
@@ -135,13 +133,18 @@ app.patch('/judge/:id', jsonParser, authenticateJWT, (request, response) => {
 
 // Роутинг результатов
 app.get('/leaderboard', authenticateJWT, (request, response) => {
-  fs.readFile(__dirname + DB_file, function (error, data) {
-    if (error) throw error // если возникла ошибка
+  fs.promises.readFile(__dirname + DB_file).then(data => {
     data = JSON.parse(data);
-    contests = data.contests
-    members = data.members
+    const { contests, members } = data
     votingResults = data.results_tables.find(table => table.tablename === "voting")
     results_tables = data.results_tables.filter(table => table.tablename != 'voting')
+    let teams = []
+    
+    members.forEach(member => {
+      teams[`${member.team}`] = {
+        team: Number(`${member.team}`)
+      }
+    })
     members.forEach(member => {
       memeberPoints = {}
       results_tables.forEach(table => {
@@ -149,14 +152,23 @@ app.get('/leaderboard', authenticateJWT, (request, response) => {
       })
       member['points'] = memeberPoints
       member['sum'] = 0
+      teams[`${member.team}`]['sum'] = 0
+      teams[`${member.team}`]['points'] = {}
       for (let key in member.points) {
+        teams[`${member.team}`]['points'][key] = 0
         for (let anotherKey in member.points[key]) {
           member['sum'] += member.points[key][anotherKey]
+          teams[`${member.team}`]['sum'] += member.points[key][anotherKey]
+          teams[`${member.team}`]['points'][key] += member.points[key][anotherKey]
         }
       }
     })
-    sortMembers = members.sort(byFieldToUp('number')).sort(byFieldToDown('sum'))
-    response.render('viewer', { members, sortMembers, votingResults, results_tables, contests })
+    let sortMembers = [...members]
+    sortMembers.sort(byFieldToDown('sum'))
+    teams.sort(byFieldToDown('sum'))
+    response.render('viewer', { members, sortMembers, teams, votingResults, results_tables, contests })
+  }).catch(err => {
+    console.log(err)
   })
 })
 
@@ -166,16 +178,21 @@ app.get('/voting', (request, response) => {
     data = JSON.parse(data)
     if (!(data.clients_ip.find(client => client === request.ip)) && !request.cookies.vote) {
       votingResults = data.results_tables.find(table => table.tablename === "voting")
-      response.render('vote', { votingResults })
+      if (votingResults.status === "start") {
+        response.render('vote', { votingResults })
+      } else if (votingResults.status === "stop") {
+        message = "ГОЛОСОВАНИЕ ОКОНЧЕНО"
+        response.render('vote_end', {message})
+      }
     } else {
-      messeage = "Вы уже проголосовали."
-      response.render('vote_end', { messeage })
+      message = "ВАШ ГОЛОС УЧТЁН"
+      response.render('vote_end', {message})
     }
   }).catch(err => {
     console.log(err)
   })
 })
-app.post('/voting', (request, response) => {
+app.post('/voting', jsonParser, (request, response) => {
   if (!request.body) return response.sendStatus(404)
   if (request.body.member == '') response.redirect('/voting')
   fs.promises.readFile(__dirname + DB_file).then(data => {
@@ -184,15 +201,13 @@ app.post('/voting', (request, response) => {
       data.clients_ip.push(request.ip)
       response.cookie('vote', `${uuid.v4()}`, {
         maxAge: 72000 * 24,
-        secure: true,
+        httpOnly: true,
       })
-      ++data.results_tables.find(table => table.tablename === "voting").tableinner[request.body.member]
+      ++data.results_tables.find(table => table.tablename === "voting").tableinner[request.body.vote]
       fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
-      messeage = "Ваш голос учтён."
-      response.render('vote_end', { messeage })
+      response.redirect('/voting')
     } else {
-      messeage = "Вы уже проголосовали."
-      response.render('vote_end', { messeage })
+      response.redirect('/voting')
     }
   }).catch(err => {
     console.log(err)

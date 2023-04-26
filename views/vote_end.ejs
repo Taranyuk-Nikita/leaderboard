@@ -1,26 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/new.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap">
     <title>Таблица лидеров</title>
 </head>
 
-<body>
-    <span>
-        <%= messeage %>
-    </span>
-    <span>Можете покинуть данную страницу...</span>
+<body style="background-image: url('/img/1117.jpg');">
+    <div class="vote_wrapper">
+        <div class="message_for_user">
+            <h2 style="font-size: 1.5rem; text-align: center; font-weight: 700; color: var(--color-3);"><%= message %></h2>
+            <h3 style="text-align: center;">Можете покинуть данную страницу</h3>
+        </div>
+    </div>
 </body>
-<script>
-    function closeCurrentWindow() {
-        window.close();
-    }
-    setTimeout(() => {
-        closeCurrentWindow()
-    }, 5000)
-</script>
 
 </html>

@@ -16,7 +16,7 @@
             <table class="custom__table">
                 <thead>
                     <tr>
-                        <th>Team / Member</th>
+                        <th>Member</th>
                         <th>第一环节</th>
                         <th>第二环节</th>
                         <th>第三环节</th>
@@ -25,7 +25,7 @@
                 <tbody>
                     <% members.forEach(member => { %>
                         <tr id="<%= member.id %>">
-                            <td style="text-align: center; font-weight: 700; font-size: 1.8rem;"><%= member.team %> / <%= member.number %></td>
+                            <td style="text-align: center; font-weight: 700; font-size: 1.8rem;"><%= member.number %></td>
                             <% contests.forEach(contest => { %>
                                 <% if (contest.status == "edit") { %>
                                 <td>

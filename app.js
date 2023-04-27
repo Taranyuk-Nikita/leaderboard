@@ -43,7 +43,7 @@ const authenticateJWT = (request, response, next) => {
 
 
 // База участников
-const DB_file = '/storage/db-27.json'
+const DB_file = '/storage/db-28.json'
 
 // Роут авторизации
 app.post('/auth', (request, response) => {
@@ -152,8 +152,8 @@ app.get('/leaderboard', authenticateJWT, (request, response) => {
       })
       member['points'] = memeberPoints
       member['sum'] = 0
-      teams[`${member.team}`]['sum'] = 0
-      teams[`${member.team}`]['points'] = {}
+      if ( typeof teams[`${member.team}`]['sum'] == 'undefined') teams[`${member.team}`]['sum'] = 0
+      if ( typeof teams[`${member.team}`]['points'] == 'undefined') teams[`${member.team}`]['points'] = {}
       for (let key in member.points) {
         teams[`${member.team}`]['points'][key] = 0
         for (let anotherKey in member.points[key]) {
@@ -203,7 +203,13 @@ app.post('/voting', jsonParser, (request, response) => {
         maxAge: 72000 * 24,
         httpOnly: true,
       })
-      ++data.results_tables.find(table => table.tablename === "voting").tableinner[request.body.vote]
+      if (data.results_tables.find(table => table.tablename === "voting").tableinner[request.body.vote] !== 'undefined') {
+        ++data.results_tables.find(table => table.tablename === "voting").tableinner[request.body.vote]
+      } else {
+        randVote = Math.floor(Math.random() * (Math.floor(18) - Math.ceil(1) + 1)) + Math.ceil(1)
+        ++data.results_tables.find(table => table.tablename === "voting").tableinner[`${randVote}`]
+      }
+
       fs.promises.writeFile(__dirname + DB_file, JSON.stringify(data))
       response.redirect('/voting')
     } else {

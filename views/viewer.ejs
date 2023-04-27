@@ -21,7 +21,6 @@
                     <table class="custom__table">
                         <thead>
                             <tr>
-                                <th>Команда</th>
                                 <th>Участник</th>
                                 <th>Судья 1</th>
                                 <th>Судья 2</th>
@@ -32,7 +31,6 @@
                         <tbody>
                             <% members.forEach(member => { %>
                                 <tr id="<%= member.id %>">
-                                    <td><%= member.team %></td>
                                     <td><%= member.number %></td>
                                         <% let contest_point = 0 %>
                                         <% for (let anotherKey in member.points[contest.id]) { %>
@@ -78,7 +76,7 @@
                     </table>
                 </div>
 
-                <input type="radio" name="tabs" id="leaders_team">
+                <!-- <input type="radio" name="tabs" id="leaders_team">
                 <label for="leaders_team">Итоги - командный зачёт</label>
                 <div class="tab">
                     <table class="custom__table">
@@ -103,7 +101,7 @@
                             <% }) %>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
 
                 <input type="radio" name="tabs" id="tabfour">
                 <label for="tabfour">Голосование</label>
@@ -139,7 +137,7 @@
     vote_items.forEach(item => {
         console.log(Math.round(Number(item.querySelector('.votes').innerHTML) * 100 / allVotes));
         item.querySelector('.progress').style.width = `${Math.round((Number(item.querySelector('.votes').innerHTML) * 100 / allVotes))}%`
-        if (maxVotes == Number(item.querySelector('.votes').innerHTML)) item.querySelector('.progress').style.background = "var(--color-6)"
+        if (maxVotes == Number(item.querySelector('.votes').innerHTML)) item.querySelector('.progress').style.background = "var(--color-5)"
     })
 </script>
 

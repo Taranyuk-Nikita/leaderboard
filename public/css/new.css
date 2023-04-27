@@ -140,7 +140,8 @@ legend {
 /* АВТОРИЗАЦИЯ */
 body {
     width: 100%;
-    background-image: url('/img/1116.jpg');
+    background-image: url('/img/1118.png');
+    background-size: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
@@ -261,7 +262,8 @@ body {
 
 /* ЗРИТЕЛЬ */
 .viewer__wrapper {
-    margin: 5rem;
+    margin: 1rem 2rem;
+    overflow: hidden;
 }
 
 .tabs {
@@ -275,7 +277,7 @@ body {
     padding: .5rem 1rem;
     margin: 0;
     cursor: pointer;
-    color: #ffffff;
+    color: var(--color-2);
     font-weight: bold;
 }
 
@@ -284,7 +286,7 @@ body {
     flex-grow: 1;
     width: 100%;
     display: none;
-    padding: 1rem;
+    padding: .5rem;
     background: #fff;
     border: 5px solid var(--color-4);
 }
@@ -323,7 +325,7 @@ body {
     width: 100%;
     border: none;
     border-spacing: 0;
-    padding-bottom: .25rem;
+    margin-bottom: 5px;
 }
 
 .custom__table select {
@@ -361,14 +363,14 @@ body {
     padding: 0.5rem 0.5rem;
     background: var(--color-3);
     color: #ffffff;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 }
 
 .custom__table tbody td {
     text-align: center;
     border: none;
-    padding: 0.5rem 0.5rem;
-    font-size: 1.5rem;
+    padding: 0.15rem 0.5rem;
+    font-size: 1.25rem;
     vertical-align: middle;
 }
 
@@ -391,7 +393,7 @@ body {
 .content_wrapper {
     font-size: 1rem;
     margin: 0 auto;
-    padding: 1rem;
+    padding: .5rem;
 }
 .vote_item {
     position: relative;
@@ -400,14 +402,20 @@ body {
     justify-content: space-between;
     margin: 0.25rem 0;
     padding: 0.15rem;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    background: #e0e0e0;
 }
 .progress {
     position: absolute;
-    margin: 7px 0;
-    bottom: -10px;
+    z-index: 9;
+    top: 0;
     left: 0;
-    height: 7px;
+    height: 100%;
     width: 0%;
-    background: var(--color-3);
+    background: var(--color-4);
+}
+.member,
+.votes {
+    color: #000000;
+    z-index: 10;
 }

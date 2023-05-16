@@ -14,19 +14,20 @@
 <body>
     <div class="add_or_edit_form">
         <div class="form_wrapper">
-            <form name="form_judge">
+            <form name="form_master">
                 <h2></h2>
-                <label for="judge_type">Роль</label>
-                <select name="judge_type">
+                <label for="type">Роль</label>
+                <select name="role">
                     <option value="judge">Судья</option>
-                    <option value="general_judge">Главный судья</option>
+                    <option value="spectator">Наблюдатель</option>
+                    <option value="player">Гейм-мастер</option>
                 </select>
-                <label for="judge_fio">ФИО</label>
-                <input name="judge_fio" type="text" required>
-                <label for="judge_login">Логин</label>
-                <input name="judge_login" type="text" required>
-                <label for="judge_pass">Пароль</label>
-                <input name="judge_pass" type="text" required>
+                <label for="username">ФИО</label>
+                <input name="username" type="text" required>
+                <label for="login">Логин</label>
+                <input name="login" type="text" required>
+                <label for="password">Пароль</label>
+                <input name="password" type="text" required>
                 <button type="submit" name="addOrEdit">Добавить</button>
                 <button type="reset" name="cancel">Отменить</button>
             </form>
@@ -68,10 +69,10 @@
                     <span>В разработке</span>
                 </div>
             </div>
-            <button class="accord_btn">Судьи</button>
+            <button class="accord_btn">Организаторы</button>
             <div class="accord_panel">
                 <div class="accord_item">
-                    <button class="add_at_list" id="add_judge">Добавить судью</button>
+                    <button class="add_at_list" id="add_user">Добавить организатора</button>
                     <table>
                         <tbody>
                             <% if (data.judges) { %>
@@ -135,15 +136,21 @@
                                         <td data-contestName>
                                             <%= contest.name %>
                                         </td>
+                                        <td data-contestStatus>
+                                            <%= contest.status %>
+                                        </td>
                                         <td data-contestMinPoints>
                                             <%= contest.min_points %>
                                         </td>
                                         <td data-contestMaxPoints>
                                             <%= contest.max_points %>
                                         </td>
-                                        <td align="right"><button class="resutls_item">Результаты</button><button
-                                                class="edit_item">Редактировать</button><button
-                                                class="remove_item">Удалить</button></td>
+                                        <td align="right">
+                                            <button class="contest_status_enable">Активировать</button>
+                                            <button class="resutls_item">Результаты</button>
+                                            <button class="edit_item">Редактировать</button>
+                                            <button class="remove_item">Удалить</button>
+                                        </td>
                                     </tr>
                                     <% }) %>
                                         <% } %>
@@ -155,13 +162,26 @@
             <div class="accord_panel">
                 <div class="accord_item">
                     <button class="add_at_list" id="votign_results">Результаты голосования</button>
-                    <button class="add_at_list" id="voting_start-stop">Запустить голосование</button>
+                    <button class="add_at_list" id="voting_start-stop">Старт / Стоп голосование</button>
                     <button class="add_at_list" id="voting_reset">Сбросить результаты</button>
                 </div>
             </div>
         </div>
     </main>
     <script>
+        // Активация конкурска
+        document.querySelectorAll('.contest_status_enable').forEach(contest => {
+            contest.addEventListener('click', () => {
+                contestId = contest.parentElement.parentElement.id
+                sendRequest('PATCH', '/adminpanel/enable_contest', { setEnableStatus: contestId})
+            })
+        })
+
+        // Активация - остановка голосования
+        document.querySelector('#voting_start-stop').addEventListener('click', () => {
+            console.log('click');
+            sendRequest('PATCH', '/adminpanel/switch_voiting')
+        })
         // Визуал
         let accords = document.querySelectorAll(".accord_btn");
         accords.forEach((elem) => {
@@ -175,9 +195,8 @@
                 }
             });
         });
-        // Запросы и ответы
+        // Функция отправки запроса
         let xhr = new XMLHttpRequest()
-        // отправка данных
         function sendRequest(method, requestURL, body = null) {
             return new Promise((resolve, reject) => {
                 xhr.open(method, requestURL)
@@ -196,22 +215,21 @@
         }
         // функционал кнопок
         // Кнопка добавить
-        const btnAddJudge = document.querySelector('#add_judge')
+        const btnAddJudge = document.querySelector('#add_user')
         btnAddJudge.addEventListener('click', () => {
-            activeForm = document.querySelector('form[name="form_judge"]')
+            activeForm = document.querySelector('form[name="form_master"]')
             formTitle = activeForm.firstElementChild
-            formTitle.innerHTML = "Добавить судью"
+            formTitle.innerHTML = "Добавить организатора"
             document.querySelector('.add_or_edit_form').style.display = "flex"
-            document.forms.form_judge.style.display = "flex"
+            document.forms.form_master.style.display = "flex"
             document.body.style.overflowY = 'hidden'
-            document.forms.form_judge.elements.addOrEdit.addEventListener('click', (event) => {
+            document.forms.form_master.elements.addOrEdit.addEventListener('click', (event) => {
                 event.preventDefault();
                 req_body = {
-                    item_type: 'judge',
-                    judge_type: document.forms.form_judge.elements.judge_type.value,
-                    judge_fio: document.forms.form_judge.elements.judge_fio.value,
-                    judge_login: document.forms.form_judge.elements.judge_login.value,
-                    judge_pass: document.forms.form_judge.elements.judge_pass.value
+                    role: document.forms.form_master.elements.role.value,
+                    username: document.forms.form_master.elements.username.value,
+                    login: document.forms.form_master.elements.login.value,
+                    password: document.forms.form_master.elements.password.value
                 }
                 sendRequest('POST', '/additem', req_body)
             })
@@ -241,14 +259,14 @@
             console.log(itemType);
             switch (itemType) {
                 case 'judge':
-                    form = document.querySelector('form[name="form_judge"]')
+                    form = document.querySelector('form[name="form_master"]')
                     form.firstElementChild.innerHTML = "Редактировать судью"
-                    document.forms.form_judge.elements.judge_type.querySelector(`option[value="${item.querySelector('td[data-judgeType]').innerText}"]`).selected = true
-                    document.forms.form_judge.elements.judge_fio.value = item.querySelector('td[data-judgeFio]').innerText
-                    document.forms.form_judge.elements.judge_login.value = item.querySelector('td[data-judgeLogin]').innerText
-                    document.forms.form_judge.elements.judge_pass.value = item.querySelector('td[data-judgePass]').innerText
+                    document.forms.form_master.elements.judge_type.querySelector(`option[value="${item.querySelector('td[data-judgeType]').innerText}"]`).selected = true
+                    document.forms.form_master.elements.judge_fio.value = item.querySelector('td[data-judgeFio]').innerText
+                    document.forms.form_master.elements.judge_login.value = item.querySelector('td[data-judgeLogin]').innerText
+                    document.forms.form_master.elements.judge_pass.value = item.querySelector('td[data-judgePass]').innerText
                     document.querySelector('.add_or_edit_form').style.display = "flex"
-                    document.forms.form_judge.style.display = "flex"
+                    document.forms.form_master.style.display = "flex"
                     document.body.style.overflowY = 'hidden'
                     break;
                 case 'member':

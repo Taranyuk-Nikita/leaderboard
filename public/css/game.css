@@ -1,0 +1,311 @@
+:root {
+	--color-1: rgb(10, 22, 73);
+	--color-2: rgb(10, 40, 173);
+	--color-3: rgb(235, 251, 255);
+	--color-4: rgb(198, 228, 236);
+	--color-5: rgb(154, 214, 231);
+	--color-6: rgb(70, 142, 231);
+}
+
+html {
+	font-size: 14pt;
+	font-family: 'Zona Pro';
+	user-select: none;
+}
+
+button {
+	font-family: 'Zona Pro';
+}
+
+body {
+	background: var(--color-5) url('/img/for-games.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	overflow: hidden;
+	min-height: 100vh;
+	font-family: 'Zona Pro';
+}
+.game_control {
+	position: absolute;
+    top: 15px;
+    right: 15px;
+	margin: 0;
+	padding: 0;
+	opacity: 0.5;
+}
+.menuControl {
+	font-size: 1rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	padding: 5px 10px;
+	color: var(--color-5);
+	background-color: var(--color-1);
+	border: none;
+	cursor: pointer;
+}
+
+.menuControl:hover,
+.menuControl:focus {
+	background-color: var(--color-2);
+}
+
+.task_2 {
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+	min-height: 100vh;
+}
+
+.task_wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	justify-content: center;
+
+	margin: 0 auto;
+
+	width: 1280px;
+
+}
+
+.task_subject {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin: 10px;
+	padding: 50px;
+	box-sizing: border-box;
+	width: 400px;
+	height: 150px;
+
+	font-size: 3rem;
+	font-weight: 700;
+
+	color: var(--color-1);
+	background-color: var(--color-4);
+}
+
+.task_item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin: 10px;
+	padding: 50px;
+	box-sizing: border-box;
+	width: 150px;
+	height: 150px;
+
+	font-size: 4rem;
+	font-weight: 900;
+	color: var(--color-1);
+
+	background-color: var(--color-4);
+	cursor: pointer;
+}
+
+.task_item:hover {
+	color: var(--color-4);
+	background-color: var(--color-1);
+}
+
+.task_item._blocked {
+	cursor: default;
+	color: var(--color-5);
+	background-color: var(--color-5);
+	opacity: 0.5;
+}
+
+.task_item._blocked:hover {
+	color: var(--color-5);
+	background-color: var(--color-5);
+}
+
+.modal_question,
+.modal_results {
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-color: #00000080;
+}
+
+.modal_control {
+	position: absolute;
+	right: 0;
+	bottom: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.modal_control button {
+	border: none;
+
+	margin: 0 0 35px 15px;
+	padding: 5px 10px;
+	box-sizing: border-box;
+
+	cursor: pointer;
+
+	font-size: 1rem;
+	font-weight: 300;
+	color: var(--color-1);
+
+	background: var(--color-5);
+}
+
+.modal_control button:hover {
+	background: radial-gradient(var(--color-4), var(--color-5));
+}
+
+.modal_control button:active {
+	color: var(--color-5);
+	background: var(--color-1);
+}
+
+.modal_wrapper {
+	z-index: 10;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	box-sizing: border-box;
+	position: relative;
+	width: 1290px;
+	height: 720px;
+	color: var(--color-1);
+	background: radial-gradient(var(--color-4), var(--color-5));
+}
+
+.modal_wrapper table {
+	display: contents;
+
+	margin: 2rem auto;
+	padding: 0;
+	box-sizing: border-box;
+
+	width: 720px;
+	height: auto;
+}
+
+.modal_wrapper table th {
+	font-size: 3rem;
+}
+
+.modal_wrapper table td {
+	font-size: 2rem;
+}
+
+.modal_item {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	font-size: 2.5rem;
+	font-weight: 500;
+	margin: 0;
+	padding: 0 1rem;
+}
+
+.modal_members {
+	display: flex;
+    flex-direction: row;
+	justify-content: center;
+    margin: 30px 0 0 0;
+	padding: 0;
+	box-sizing: border-box;
+    position: absolute;
+    bottom: -100px;
+	width: 100%;
+}
+
+.members {
+	width: 75px;
+    height: 75px;
+    margin: 0 20px;
+    border: none;
+    background-color: var(--color-5);
+    color: var(--color-1);
+    font-size: 2rem;
+	cursor: pointer;
+}
+
+.members._correct,
+.members._correct:hover,
+.members._correct:active {
+	background-color: var(--color-1);
+    color: var(--color-5);
+	cursor: default;
+}
+
+.members._uncorrect,
+.members._uncorrect:hover,
+.members._uncorrect:active {
+	color: var(--color-5);
+	background-color: var(--color-6);
+	cursor: default;
+}
+
+.members:hover {
+	background-color: var(--color-4);
+}
+
+.members:active {
+	background-color: var(--color-1);
+    color: var(--color-5);
+}
+
+.show_img, .show_video {
+	display: block;
+	max-width: 1010px;
+	max-height: 600px;
+}
+
+.timer {
+	content: "";
+	position: absolute;
+	bottom: 0%;
+	width: 100%;
+	height: 20px;
+	background-color: var(--color-1);
+	opacity: 0;
+}
+
+.timer._active {
+	opacity: 1;
+	animation: countdown 5s linear;
+}
+
+@keyframes countdown {
+	from {
+		transform: scaleX(1);
+	}
+
+	to {
+		transform: scaleX(0);
+	}
+}
+.question_variants,
+.question_answer,
+.question_text {
+	display: none;
+}
+.question_answer {
+	font-size: 5rem;
+}

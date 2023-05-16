@@ -14,18 +14,12 @@
         <div class="auth_form__wrapper">
             <h2>Китайский язык - это мост</h2>
             <form action="/auth" method="post">
-                <input type="text" title="username" name="username" placeholder="username" />
-                <input type="password" title="username" name="password" placeholder="password" />
+                <input type="text" name="login" placeholder="login" />
+                <input type="password" name="password" placeholder="password" />
                 <button type="submit" class="auth_form__login">Sign in</button>
             </form>
         </div>
     </section>
 </body>
-
-<script>
-    document.querySelector('.auth_form__btn').addEventListener('click', () => {
-        window.open('/voting')
-    })
-</script>
 
 </html>

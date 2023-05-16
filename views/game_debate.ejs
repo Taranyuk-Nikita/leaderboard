@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/debate.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Play&display=swap" rel="stylesheet">
+    <title>Дебаты</title>
+</head>
+
+<body>
+    <section class="debate_modal">
+        <div class="side attack">
+            <h2 class="side_title">正方</h2>
+            <span class="side_statement">在线教育应该成为未来教育发展的方向。</span>
+        </div>
+        <div class="coutdown_block">
+            <div class="modal_controller">
+                <button id="close_modal"><i class="fa-solid fa-xmark"></i></button>
+                <button id="set_breake-debate" data-status="breake"><i class='fa-solid fa-clock'></i></button> <!-- <i class="fa-sharp fa-solid fa-clock"></i> -->
+                <button id="toggle_side" data-status="attack"><i class="fa-solid fa-chevron-left"></i></button> <!-- <i class="fa-solid fa-chevron-right"></i> -->
+                <button id="toggle_show" data-status="invisible"><i class="fa-solid fa-eye-slash"></i></button> <!-- <i class="fa-solid fa-eye"></i> -->
+                <button id="countdown_start-stop" data-status="pause"><i class="fa-solid fa-play"></i></button> <!-- <i class="fa-solid fa-pause"></i> -->
+                <button id="countdown-refresh"><i class="fa-solid fa-arrows-rotate"></i></button>
+            </div>
+            <div class="countdown_wrapper">
+                <div class="turn_attack _invisible"><i class="fa-solid fa-chevron-left"></i></div>
+                <div class="turn_defense _waiting _invisible"><i class="fa-solid fa-chevron-right"></i></div>
+                <div id="app"></div>
+                <audio id="countdown_sound" src="/audio/Countdown_30s.mp3"></audio>
+            </div>
+        </div>
+        <div class="side defense">
+            <h2 class="side_title">反方</h2>
+            <span class="side_statement">在线教育不应该成为未来教育发展的方向。</span>
+        </div>
+    </section>
+    <section class="debate_theams">
+        <div class="debate_wrapper">
+            <div class="theam_card" id="theam1">
+                <span>1</span>
+                <span class="statement_attack">人到30岁应该<br>做稳定的工作</span>
+                <span class="statement_defense">人到30岁应该<br>继续追求梦想</span>
+            </div>
+            <div class="theam_card" id="theam2">
+                <span>2</span>
+                <span class="statement_attack">为了生活有保障<br>应该存钱</span>
+                <span class="statement_defense">要享受生活<br>不应该存钱</span>
+            </div>
+            <div class="theam_card" id="theam3">
+                <span>3</span>
+                <span class="statement_attack">父母提出住养老院<br>应该支持</span>
+                <span class="statement_defense">不应该让父母<br>住养老院</span>
+            </div>
+            <div class="theam_card" id="theam4">
+                <span>4</span>
+                <span class="statement_attack">为了生活要选择<br>不喜欢的<br>却薪水高的工作</span>
+                <span class="statement_defense">要选择自己<br>喜欢的工作，<br>哪怕薪水很低</span>
+            </div>
+            <div class="theam_card" id="theam5">
+                <span>5</span>
+                <span class="statement_attack">应该改变自己，<br>成为恋人<br>想要的样子</span>
+                <span class="statement_defense">应该保持自己<br>原有的样子</span>
+            </div>
+            <div class="theam_card" id="theam6">
+                <span>6</span>
+                <span class="statement_attack">城市堵车严重<br>该限制家庭购车</span>
+                <span class="statement_defense">堵车严重，<br>与家庭购<br>车数量无关</span>
+            </div>
+            <div class="theam_card" id="theam7">
+                <span>7</span>
+                <span class="statement_attack">灾难中的自私<br>不应该受到批评</span>
+                <span class="statement_defense">灾难中的自私<br>应该受到批评</span>
+            </div>
+            <div class="theam_card" id="theam8">
+                <span>8</span>
+                <span class="statement_attack">大数据时代让我们<br>生活得更轻松</span>
+                <span class="statement_defense">大数据时代让我们<br>生活得更沉重。</span>
+            </div>
+            <div class="theam_card" id="theam9">
+                <span>9</span>
+                <span class="statement_attack">在线教育应该<br>成为未来教育<br>发展的方向。</span>
+                <span class="statement_defense">在线教育不应该<br>成为未来教育<br>发展的方向。</span>
+            </div>
+            <div class="theam_card" id="theam10">
+                <span>10</span>
+                <span class="statement_attack">为自己的快乐活着</span>
+                <span class="statement_defense">为别人的快乐活着</span>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="/js/debate.js"></script>
+<script src="https://kit.fontawesome.com/b6f52fc10b.js" crossorigin="anonymous"></script>
+
+</html>

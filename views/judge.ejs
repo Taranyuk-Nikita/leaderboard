@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/new.css">
+    <title>Document</title>
+</head>
+
+<style>
+    .contests_buutons button {
+        margin: 1rem;
+        padding: 1rem 2rem;
+        box-sizing: border-box;
+
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #ffffff;
+        background-color: var(--color-3);
+    }
+
+    .modal_foto,
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #00000080;
+    }
+
+    .modal_foto._active {
+        display: block;
+        z-index: 1000;
+    }
+
+    .modal._active {
+        display: block;
+        z-index: 950;
+    }
+
+    .modal_window {
+        margin: 1.5rem auto;
+        padding: 0;
+        box-sizing: border-box;
+        width: 1020px;
+        background-color: #efefef;
+        border-radius: 1rem;
+    }
+
+    .modal_foto_head,
+    .modal_head {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 0;
+        padding: 1rem 2rem;
+        box-sizing: border-box;
+    }
+
+    #modal_foto_title,
+    #modal_title {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .modal_foto_body,
+    .modal_body {
+        margin: 0;
+        padding: 1rem;
+        box-sizing: border-box;
+        height: 670px;
+        font-size: 1.25rem;
+        background-color: #ffffff;
+        overflow-x: hidden;
+    }
+
+    .modal_foto_body {
+        overflow-y: hidden;
+    }
+
+    .modal_foto_body img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .modal_body {
+        overflow-y: scroll;
+    }
+
+    .single_member {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        margin: .5rem 0 1.5rem 0;
+    }
+
+    .single_member select {
+        padding: 0.25rem 0.5rem;
+        box-sizing: border-box;
+        font-size: 1.2rem;
+        border: 2px solid var(--color-3);
+        cursor: pointer;
+    }
+
+
+    .confirm_mark {
+        display: block;
+        width: 90%;
+        background: var(--color-3);
+        padding: .5rem 2rem;
+        color: #ffffff;
+        margin: 0 auto;
+    }
+
+    .confirm_mark:hover {
+        background: var(--color-2);
+    }
+
+    .confirm_mark:focus {
+        outline: none;
+    }
+
+    .confirm_mark:active {
+        background: var(--color-4);
+    }
+
+    .modal_foto_foot,
+    .modal_foot {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        margin: 0;
+        padding: 1rem 2rem;
+        box-sizing: border-box;
+    }
+</style>
+
+<body>
+    <div class="modal_foto">
+        <div class="modal_window">
+            <div class="modal_foto_head">
+                <span id="modal_foto_title"></span>
+                <button id="close_modal_foto">CLOSE</button>
+            </div>
+            <div class="modal_foto_body">
+
+            </div>
+            <div class="modal_foto_foot"></div>
+        </div>
+    </div>
+    <div class="modal">
+        <div class="modal_window">
+            <div class="modal_head">
+                <span id="modal_title"></span>
+                <button id="close_modal">CLOSE</button>
+            </div>
+            <div class="modal_body">
+
+            </div>
+            <div class="modal_foot">
+                <button class="confirm_mark">确定</button>
+            </div>
+        </div>
+    </div>
+    <main>
+        <section class="judge">
+            <div class="judge__wrapper">
+                <h2 class="page_title" id="<%= judge.id %>">Вы вошли как <%= judge.fio %>
+                </h2>
+                <section class="contests_buutons">
+                    <div class="btns">
+                        <% contests.forEach(contest=> { %>
+                            <button class="contest_btn" id="btn_<%= contest.id %>">
+                                <%= contest.name %>
+                            </button>
+                            <% }) %>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+</body>
+
+<script>
+    let contests_btns = document.querySelectorAll('.contest_btn')
+    contests_btns.forEach(contest_btn => {
+        contest_btn.addEventListener('click', () => {
+            sendRequest("GET", `/contest/${contest_btn.id.slice(4)}/${document.querySelector('.page_title').id}`).then(data => {
+                if (data.message) {
+                    document.querySelector('.modal_body').innerHTML = data.message
+                    document.querySelector('#modal_title').innerHTML = "Error"
+                } else {
+                    let members = data.members
+                    let contest = data.contest
+                    let members_board = ``
+                    let options = ``
+                    document.querySelector('#modal_title').innerHTML = contest.name
+                    if (contest.scores == "edit") {
+                        for (let i = data.contest.min_points; i <= data.contest.max_points; i++) {
+                            options += `<option value="${i}">${i}</option>`
+                        }
+                        members.forEach(member => {
+                            members_board +=
+                                `
+                                <div class="single_member" id="${member.id}">
+                                    <span>
+                                        ${member.userteam} / ${member.usernumber}
+                                    </span>
+                                    <span style="cursor: pointer;" class="member_foto" data-fotoPath="/img/foto/foto_${member.id}.jpg" data-fotoTitle="${member.username}">
+                                        ${member.username}
+                                    </span>
+                                    <div style="display: flex; flex-direction: row; justify-content: space-between; width: 550px;">
+                                        <input type="range" min="${contest.min_points}" max="${contest.max_points}" value="0" style="width: 450px;" class="mark_range"
+                                            id="range_${member.id}">
+                                        <select name="scores" class="mark_value" id="scores_${member.id}">
+                                            <option value="" selected disabled="disabled"></option>
+                                            ${options}
+                                        </select>
+                                    </div>
+                                </div>
+                                `
+                        })
+                        document.querySelector('.modal_body').innerHTML = members_board
+                        let sliders = document.querySelectorAll('.mark_range')
+                        sliders.forEach(slider => {
+                            let id = slider.id.slice(6)
+                            let output = document.querySelector(`#scores_${id}`)
+                            slider.oninput = function () {
+                                output.value = this.value;
+                            }
+                            output.oninput = function () {
+                                slider.value = this.value;
+                            }
+                        })
+                        document.querySelectorAll('.member_foto').forEach(foto => {
+                            foto.addEventListener('click', (e) => {
+                                document.querySelector('#modal_foto_title').innerHTML = e.target.dataset.fototitle
+                                document.querySelector('.modal_foto_body').innerHTML = `<img src="${e.target.dataset.fotopath}" alt="${e.target.dataset.fototitle}">`
+                                document.querySelector('.modal_foto').classList.toggle('_active')
+                            })
+                        })
+                        document.querySelector('.confirm_mark').id = `btn-confirm_${contest.id}`
+                    } else if (contest.scores == "marked") {
+                        let result_table = data.result_table
+                        console.log(result_table);
+                        members.forEach(member => {
+                            members_board +=
+                                `
+                                <div class="single_member" id="${member.id}">
+                                    <span>
+                                        ${member.userteam} / ${member.usernumber}
+                                    </span>
+                                    <span style="cursor: pointer;" class="member_foto" data-fotoPath="/img/foto/foto_${member.id}.png" data-fotoTitle="${member.username}">
+                                        ${member.username}
+                                    </span>
+                                    <div style="display: flex; flex-direction: row; justify-content: space-between; width: 550px;">
+                                        ${result_table.tableinner[member.id]}
+                                    </div>
+                                </div>
+                                `
+                        })
+                        document.querySelector('.modal_body').innerHTML = members_board
+                    }
+                }
+            })
+            document.querySelector('.modal').classList.toggle('_active')
+        })
+    })
+
+    document.querySelector('.confirm_mark').addEventListener('click', () => {
+        contest_id = document.querySelector('.confirm_mark').id.slice(12)
+        let marks_filds = document.querySelectorAll(`.mark_value`)
+        let marks = {
+            contestId: contest_id,
+            results: {}
+        }
+        let checkEmptySelect = true
+        marks_filds.forEach(mark => {
+            if (mark.value == '') checkEmptySelect = false
+        })
+        if (checkEmptySelect) {
+            areYourShureAbouThat = confirm('Подтвердите выставленные оценки за конкурс.')
+            if (areYourShureAbouThat) {
+                marks_filds.forEach(mark => {
+                    document.querySelector('.confirm_mark').removeAttribute('id')
+                    document.querySelector('.modal').classList.toggle('_active')
+                    marks.results[mark.parentElement.parentElement.id] = mark.value
+                })
+                sendRequest('PATCH', `/judge/${document.querySelector('.page_title').id}`, marks)
+            }
+        } else alert("Проставте оценки каждому участнику конкурса перед отправкой!")
+    })
+
+    document.querySelector(`#close_modal`).addEventListener('click', () => {
+        document.querySelector('.confirm_mark').removeAttribute('id')
+        document.querySelector('.modal').classList.toggle('_active')
+    })
+    document.querySelector(`#close_modal_foto`).addEventListener('click', () => {
+        document.querySelector('.modal_foto').classList.toggle('_active')
+    })
+
+    // Функция отправки запроса
+    let xhr = new XMLHttpRequest()
+    function sendRequest(method, requestURL, body = null) {
+        return new Promise((resolve, reject) => {
+            xhr.open(method, requestURL)
+            xhr.responseType = "json"
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.onload = () => {
+                if (xhr.status >= 400) reject(xhr.response);
+                else resolve(xhr.response);
+            }
+            xhr.onerror = () => {
+                reject(xhr.response);
+            }
+            if (body != null) body = JSON.stringify(body)
+            xhr.send(body)
+        })
+    }
+</script>
+
+</html>

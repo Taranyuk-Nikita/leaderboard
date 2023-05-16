@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/new.css">
     <title>Таблица лидеров</title>
 </head>
-
+<%= console.log(members) %>
 <body>
     <section class="judge">
         <div class="judge__wrapper">
@@ -16,18 +16,18 @@
             <table class="custom__table">
                 <thead>
                     <tr>
-                        <th>Member</th>
-                        <th>第一环节</th>
-                        <th>第二环节</th>
-                        <th>第三环节</th>
+                        <th>Team / Member</th>
+                        <% contests.forEach(contest => { %>
+                           <th><%= contest.name %></th> 
+                        <% }) %>
                     </tr>
                 </thead>
                 <tbody>
                     <% members.forEach(member => { %>
                         <tr id="<%= member.id %>">
-                            <td style="text-align: center; font-weight: 700; font-size: 1.8rem;"><%= member.number %></td>
+                            <td style="text-align: center; font-weight: 700; font-size: 1.8rem;"><%= member.userteam %> / <%= member.usernumber %></td>
                             <% contests.forEach(contest => { %>
-                                <% if (contest.status == "edit") { %>
+                                <% if (contest.scores == "edit") { %>
                                 <td>
                                     <select id="sm_<%= contest.id %>" style="width: 100%;">
                                         <option value="" selected disabled="disabled"></option>
@@ -37,8 +37,10 @@
                                         <% } %>
                                     </select>
                                 </td>
-                                <% } else if (contest.status == "marked") { %>
-                                    <td></td>
+                                <% } else if (contest.scores == "marked") { %>
+                                    <td>
+                                        <%= results_tables.find(table => table.tablename === `results_${contest.id}`).tableinner[member.id] %>
+                                    </td>
                                 <% } %>
                             <% }) %>
                         </tr>
@@ -46,10 +48,14 @@
                 </tbody>
                 <tfoot>
                     <td></td>
-                    <% contests.forEach(contest => { %>              
+                    <% contests.forEach(contest => { %>         
+                        <% if (contest.scores == "edit") { %>     
                         <td>
                             <button class="confirm_mark" id="btn-confirm_<%= contest.id %>">确定</button>
                         </td>
+                        <% } else if (contest.scores == "marked") { %>
+                            <td></td>
+                        <% } %>
                     <% }) %>
                 </tfoot>
             </table>
@@ -86,6 +92,7 @@
             } else alert("Проставте оценки каждому участнику конкурса перед отправкой!")
         })
     })
+
     let xhr = new XMLHttpRequest()
         // отправка данных
         function sendRequest(method, requestURL, body = null) {

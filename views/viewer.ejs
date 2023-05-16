@@ -18,26 +18,28 @@
                 <input type="radio" name="tabs" id="<%= contest.id %>">
                 <label for="<%= contest.id %>">Конкурс №<%= ++i %></label>
                 <div class="tab">
-                    <table class="custom__table">
+                    <table class="custom__table _<%= contest.rules %>">
                         <thead>
                             <tr>
                                 <th>Участник</th>
                                 <th>Судья 1</th>
                                 <th>Судья 2</th>
                                 <th>Судья 3</th>
+                                <th>Судья 4</th>
+                                <th>Игра</th>
                                 <th style="background: var(--color-4); color: var(--color-6);">ИТОГ</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <% members.forEach(member => { %>
+                            <% sortedMembers[`sort_${contest.id}`].forEach(member => { %>
                                 <tr id="<%= member.id %>">
-                                    <td><%= member.number %></td>
+                                    <td><%= member.usernumber %></td>
                                         <% let contest_point = 0 %>
                                         <% for (let anotherKey in member.points[contest.id]) { %>
                                             <td style="text-align: center;"><%= member.points[contest.id][anotherKey] %></td>
                                             <% contest_point += member.points[contest.id][anotherKey] %>
                                         <% } %>
-                                        <td style="text-align: center; font-weight: 700;"><%= contest_point %></td>
+                                        <td style="text-align: center; font-weight: 700; color: var(--color-6);"><%= contest_point %></td>
                                 </tr>
                             <% }) %>
                         </tbody>
@@ -55,13 +57,14 @@
                                 <th>I этап</th>
                                 <th>II этап</th>
                                 <th>III этап</th>
+                                <th>IV этап</th>
                                 <th style="background: var(--color-4); color: var(--color-6);">ИТОГ</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% sortMembers.forEach(member => { %>
                                 <tr id="<%= member.id %>">
-                                    <td><%= member.number %></td>
+                                    <td><%= member.usernumber %></td>
                                     <% for (let key in member.points) { %>
                                         <% let contest_point = 0 %>
                                         <% for (let anotherKey in member.points[key]) { %>
@@ -76,7 +79,7 @@
                     </table>
                 </div>
 
-                <!-- <input type="radio" name="tabs" id="leaders_team">
+                <input type="radio" name="tabs" id="leaders_team">
                 <label for="leaders_team">Итоги - командный зачёт</label>
                 <div class="tab">
                     <table class="custom__table">
@@ -86,6 +89,7 @@
                                 <th>I этап</th>
                                 <th>II этап</th>
                                 <th>III этап</th>
+                                <th>IV этап</th>
                                 <th style="background: var(--color-4); color: var(--color-6);">ИТОГ</th>
                             </tr>
                         </thead>
@@ -101,7 +105,7 @@
                             <% }) %>
                         </tbody>
                     </table>
-                </div> -->
+                </div>
 
                 <input type="radio" name="tabs" id="tabfour">
                 <label for="tabfour">Голосование</label>
@@ -118,6 +122,27 @@
                         </div>
                     <% } %>
                 </div>
+                <% i = 0 %>
+                <% contests.forEach(contest => { %>             
+                    <input type="radio" name="tabs" id="p_<%= contest.id %>">
+                    <label for="p_<%= contest.id %>">#<%= ++i %></label>
+                    <div class="tab" style="background: url(/img/for_games.jpg);">
+                        <table class="custom__table _<%= contest.rules %>" style="background: #fffffff0;">
+                            <thead>
+                                <tr>
+                                    <th style="font-size: 2rem; background: rgb(243, 190, 195); color: rgb(93, 24, 35);">Участник</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% sortedMembers[`sort_${contest.id}`].forEach(member => { %>
+                                    <tr id="<%= member.id %>">
+                                        <td><%= member.usernumber %> - <%= member.username %></td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% }) %>
             </div>
         </div>
     </section>

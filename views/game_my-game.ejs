@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/game.css">
+    <link rel="stylesheet" href="/css/stylesheet.css">
+    <title>СВОЯ ИГРА</title>
+</head>
+
+<body>
+    <div class="game_control">
+        <button class="menuControl" id="btn-send_result">Отправить результаты</button>
+        <button class="menuControl" id="btn-result">Результаты игры</button>
+        <a href="/gamemaster/5f7c0799-52f5-4f6e-9359-dbfce2f9a10f"><button class="menuControl" id="back2menu">Выход</button></a>
+    </div>
+    <section class="task_2">
+        <div class="modal_results">
+            <div class="modal_wrapper">
+                <div class="modal_control">
+                    <button id="close_modal_res">Закрыть</button>
+                </div>
+                <div class="modal_item">
+                </div>
+            </div>
+        </div>
+        <div class="modal_question">
+            <div class="modal_wrapper">
+                <div class="modal_control">
+                    <button id="start_countdown">Запустить таймер</button>
+                    <button id="show_answer">Показать ответ</button>
+                    <button id="close_modal">Закрыть вопрос</button>
+                </div>
+                <div class="modal_item">
+                    <span class="show_question"></span>
+                    <span class="question_answer">ОТВЕТ</span>
+                    <div class="timer"></div>
+                </div>
+                <div class="modal_members">
+                    <% members.forEach(member => { %>
+                        <button class="members" id="<%= member.id %>" data-member-name="<%= member.username %>"><%= member.usernumber %></button>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+        <div class="task_wrapper">
+            <div class="task_subject">
+                <span>中国语言</span>
+            </div>
+            <div class="task_item" id='q11_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.5rem;"><p> “我原来差不多每个星期出差一次，<br>结果身体越来越差”<br>句中“差”的读音分别是 ________ 。</p></div>
+                    <div style="display: flex; justify-content: space-between; font-size: 2rem;"><span>A. chā&nbsp;&nbsp;&nbsp;chà&nbsp;&nbsp;&nbsp;chā</span><span>B. chà&nbsp;&nbsp;&nbsp;chāi&nbsp;&nbsp;&nbsp;chà</span><span>C. chāi&nbsp;&nbsp;&nbsp;chā&nbsp;&nbsp;&nbsp;chāi</span></div>
+                </div>
+                <span class="task_number">10</span>
+                <span class="question_answer"><p style="font-size: 4rem;">B. chà&nbsp;&nbsp;&nbsp;chāi&nbsp;&nbsp;&nbsp;chà</p></span>
+            </div>
+            <div class="task_item" id='q12_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.5rem;"><p> 甲：上星期你们没在家，去哪儿了？<br>乙： ________________ 。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 我们去了旅游</span><span>B. 我们去旅游了</span><span>C. 我们旅游了去</span></div>
+                </div>
+                <span class="task_number">20</span>
+                <span class="question_answer"><p style="font-size: 4rem;">B. 我们去旅游了</p></span>
+            </div>
+            <div class="task_item" id='q13_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.5rem;"><p> 到国外留学后，<br>我格外 ______ 家乡的一草一木。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 缅怀</span><span>B. 纪念</span><span>C. 想念</span></div>
+                </div>
+                <span class="task_number">30</span>
+                <span class="question_answer"><p style="font-size: 4rem;">C. 想念</p></span>
+            </div>
+            <div class="task_item" id='q14_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.5rem;"><p> 汉语里有些成语和动物有关。<br>请问下列和“马” 有关的四字词语中， <br>哪个不是成语？</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 指鹿为马</span><span>B. 马到成功</span><span>C. 骏马奔驰</span></div>
+                </div>
+                <span class="task_number">40</span>
+                <span class="question_answer"><p style="font-size: 4rem;">C. 骏马奔驰</p></span>
+            </div>
+            <div class="task_item" id='q15_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.5rem;"><p> 成语故事 ________ <br>讲的是坏事在一定条件下可以变成好事。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 塞翁失马</span><span>B. 愚公移山</span><span>C. 坐井观天</span></div>
+                </div>
+                <span class="task_number">50</span>
+                <span class="question_answer"><p style="font-size: 4rem;">A. 塞翁失马</p></span>
+            </div>
+            <div class="task_subject">
+                <span>中国文化</span>
+            </div>
+            <div class="task_item" id='q21_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.2rem;"><p>中国人（尤其是南方人）年夜饭一般都要吃鱼。<br>请问其象征意义是什么？</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 步步高升</span><span>B. 健康幸福</span><span>C. 年年有余</span></div>
+                </div>
+                <span class="task_number">10</span>
+                <span class="question_answer"><p style="font-size: 4rem;">A. 步步高升</p></span>
+            </div>
+            <div class="task_item" id='q22_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3rem;"><p>象棋在中国有着悠久的历史，由于用具简单，<br>趣味性和竞技性强，成为流行广泛的棋艺活动。<br>_____ 是棋中的首脑，<br>是下棋双方决定胜负的最终目标。<br>请问其象征意义是什么？</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 炮</span><span>B. 帅</span><span>C. 车</span></div>
+                </div>
+                <span class="task_number">20</span>
+                <span class="question_answer"><p style="font-size: 4rem;">C. 车</p></span>
+            </div>
+            <div class="task_item" id='q23_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3rem;"><p>请问下列哪个词语既可以作为姓氏，<br>也是古代官员职务的名称？</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 大夫</span><span>B. 诸葛</span><span>C. 司马</span></div>
+                </div>
+                <span class="task_number">30</span>
+                <span class="question_answer"><p style="font-size: 4rem;">C. 司马</p></span>
+            </div>
+            <div class="task_item" id='q24_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3rem;"><p>“儿童强不睡，相守夜欢哗。”<br>请问这句话说的是春节哪项传统习俗？</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 拜年</span><span>B. 守岁</span><span>C. 守时</span></div>
+                </div>
+                <span class="task_number">40</span>
+                <span class="question_answer"><p style="font-size: 4rem;">B. 守岁</p></span>
+            </div>
+            <div class="task_item" id='q25_card'>
+                <span class="question_text"> </span>
+                <!-- <p class="question_variants">请问 “近朱者赤，近墨者黑”<br>所蕴含的道理和下列哪句话相似？<br><br>A. 青出于蓝而胜于蓝<br><br>B. 蓬生麻中，不扶而直<br><br>C. 出淤泥而不染，濯清涟而不妖</p> -->
+                <div class="question_variants">
+                    <div style="font-size: 3.5rem;"><p>请问 “近朱者赤，近墨者黑”<br>所蕴含的道理和下列哪句话相似？</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 青出于蓝<br>而胜于蓝</span><span>B. 蓬生麻中，<br>不扶而直</span><span>C. 出淤泥而不染，<br>濯清涟而不妖</span></div>
+                </div>
+                <span class="task_number">50</span>
+                <!-- <span class="question_answer">B. 蓬生麻中，不扶而直</span> -->
+                <span class="question_answer"><p style="font-size: 4rem;">B. «蓬生麻中，不扶而直</p></span>
+            </div>
+            <div class="task_subject">
+                <span>中国国情</span>
+            </div>
+            <div class="task_item" id='q31_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.5rem;"><p>甲：请问，火警的电话号码是多少？<br>乙：是 ____ ，你就记住“要救”就行了。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 120</span><span>B. 119</span><span>C. 110</span></div>
+                </div>
+                <span class="task_number">10</span>
+                <span class="question_answer"><p style="font-size: 4rem;">B. 119</p></span>
+            </div>
+            <div class="task_item" id='q32_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.2rem;"><p>为了保护环境，我们主张采取绿色出行方式，<br>尽量减少CO2的排放。相比较下面哪一项不<br>属于绿色出行方式？</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 乘坐公交</span><span>B. 乘坐地铁</span><span>C. 开私家车</span></div>
+                </div>
+                <span class="task_number">20</span>
+                <span class="question_answer"><p style="font-size: 4rem;">C. 开私家车</p></span>
+            </div>
+            <div class="task_item" id='q33_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.1rem;"><p>2017年出现了一个网络新词“新四大发明”, <br>指的是在中国推广应用较为领先的四个新事物。<br>包括高速铁路、扫码支付、网络购物和 ________ 。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 在线约车</span><span>B. 网络拼车</span><span>C. 共享单车</span></div>
+                </div>
+                <span class="task_number">30</span>
+                <span class="question_answer"><p style="font-size: 4rem;">C. 共享单车</p></span>
+            </div>
+            <div class="task_item" id='q34_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.1rem;"><p>________ 是中国社会的一种公益活动，已有30<br>年的历史，目的在于帮助贫困地区建校办学，<br>让每个孩子都能接受教育。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 春蕾计划</span><span>B. 希望工程</span><span>C. 母亲水窖</span></div>
+                </div>
+                <span class="task_number">40</span>
+                <span class="question_answer"><p style="font-size: 4rem;">B. 希望工程</p></span>
+            </div>
+            <div class="task_item" id='q35_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.1rem;"><p>________ 导航系统的建成与开通，<br>标志着中国已成为世界上第三个拥有全球卫星导<br>航系统的国家。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 神舟十号</span><span>B. 长征四号</span><span>C. 北斗三号</span></div>
+                </div>
+                <span class="task_number">50</span>
+                <span class="question_answer"><p style="font-size: 4rem;">C. 北斗三号</p></span>
+            </div>
+            <div class="task_subject">
+                <span>中国历史</span>
+            </div>
+            <div class="task_item" id='q41_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.5rem;"><p>长城，又称万里长城，<br>在古代主要用于 ________ ，<br>是中华民族的象征。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 游玩</span><span>B. 军事</span><span>C. 祭祀</span></div>
+                </div>
+                <span class="task_number">10</span>
+                <span class="question_answer"><p style="font-size: 4rem;">B. 军事</p></span>
+            </div>
+            <div class="task_item" id='q42_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 2.9rem;"><p>甲:你听过“孟母三迁”的故事吗？<br>乙:当然，这是中国古代的一个故事。<br>孟轲的母亲为使儿子有良好的教育环境而多次搬家，<br>最后搬到了________旁边。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 市场</span><span>B. 学校</span><span>C. 书店</span></div>
+                </div>
+                <span class="task_number">20</span>
+                <span class="question_answer"><p style="font-size: 4rem;">B. 学校</p></span>
+            </div>
+            <div class="task_item" id='q43_card'>
+                <span class="question_text"> </span>
+                <p class="question_variants"><img src="/img/123123123123.png" style="transform: scale(0.9);"></p>
+                <span class="task_number">30</span>
+                <span class="question_answer"><p style="font-size: 4rem;">A. 浑天仪</p></span>
+            </div>
+            <div class="task_item" id='q44_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.5rem;"><p>隋唐以后实行通过考试选拔官吏，<br>由于采用分科取士的办法，所以叫做 ________ 。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 选举</span><span>B. 科学</span><span>C. 科举</span></div>
+                </div>
+                <span class="task_number">40</span>
+                <span class="question_answer"><p style="font-size: 4rem;">C. 科举</p></span>
+            </div>
+            <div class="task_item" id='q45_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.1rem;"><p>流传至今的中国远古神话，<br>反映了先民对天地的想象、对美好生活的追求。<br>下列表现人类与自然抗争的神话传说是 ________ 。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 精卫填海</span><span>B. 嫦娥奔月</span><span>C. 仓颉造字</span></div>
+                </div>
+                <span class="task_number">50</span>
+                <span class="question_answer"><p style="font-size: 4rem;">A. 精卫填海</p></span>
+            </div>
+            <div class="task_subject">
+                <span>中国地理</span>
+            </div>
+            <div class="task_item" id='q51_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.4rem;"><p>甲：马克，你这次旅游玩得怎么样？<br>乙：非常开心，我游览了兵马俑、大雁塔。<br>请问马克去哪个城市旅游了？</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 西安</span><span>B. 太原</span><span>C. 西宁</span></div>
+                </div>
+                <span class="task_number">10</span>
+                <span class="question_answer"><p style="font-size: 4rem;">A. 西安</p></span>
+            </div>
+            <div class="task_item" id='q52_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.4rem;"><p>由于水土、气候等条件有利于水果的生长，<br>中国很多地方因水果而闻名。<br>比如莱阳的梨、<br>烟台的苹果和 ________ 。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 黑龙江的皮草</span><span>B. 新疆的葡萄</span><span>C. 湖南的辣椒</span></div>
+                </div>
+                <span class="task_number">20</span>
+                <span class="question_answer"><p style="font-size: 4rem;">B. 新疆的葡萄</p></span>
+            </div>
+            <div class="task_item" id='q53_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.4rem;"><p>金陵十二钗是中国古典小说里具有代表性的十二位女性。<br>请问你知道金陵是现在的哪个城市吗？</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 北京</span><span>B. 南京</span><span>C. 杭州</span></div>
+                </div>
+                <span class="task_number">30</span>
+                <span class="question_answer"><p style="font-size: 4rem;">B. 南京</p></span>
+            </div>
+            <div class="task_item" id='q54_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.2rem;"><p>京津冀地区是中国的“首都经济圈”，<br>是中国北方经济规模最大的地区。包括北京、<br>天津和________，三地优势互补、<br>协同发展，将有助于带动中国北方的发展。</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 山东</span><span>B. 山西</span><span>C. 河北</span></div>
+                </div>
+                <span class="task_number">40</span>
+                <span class="question_answer">C. 河北</span>
+                <span class="question_answer"><p style="font-size: 4rem;">C. 河北</p></span>
+            </div>
+            <div class="task_item" id='q55_card'>
+                <span class="question_text"> </span>
+                <div class="question_variants">
+                    <div style="font-size: 3.4rem;"><p>中国十大古都之一，拥有都江堰、武侯祠、<br>杜甫草堂等名胜古迹。请问被称为“蓉城”<br>“锦城”的是中国哪个城市？</p></div>
+                    <div style="display: flex; justify-content: space-around; font-size: 2rem;"><span>A. 上海</span><span>B. 杭州</span><span>C. 成都</span></div>
+                </div>
+                <span class="task_number">50</span>
+                <span class="question_answer"><p style="font-size: 4rem;">C. 成都</p></span>
+            </div>
+        </div>
+    </section>
+</body>
+
+<script src="/js/game.js"></script>
+
+</html>

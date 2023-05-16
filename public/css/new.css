@@ -1,7 +1,7 @@
 :root {
-    --color-1: #f8f8f8;
-    --color-2: #0060aa;
-    --color-3: #005a98;
+    --color-1: #f0f0f0;
+    --color-2: #3ca03c;
+    --color-3: #37913c;
     --color-4: #fdd186;
     --color-5: #e88452;
     --color-6: #ca3024;
@@ -139,8 +139,8 @@ legend {
 /* ---------------------------------------------------------- */
 /* АВТОРИЗАЦИЯ */
 body {
-    width: 100%;
-    background-image: url('/img/1118.png');
+    height: 100%;
+    background-image: url('/img/3000х2000_1.jpg');
     background-size: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -277,7 +277,7 @@ body {
     padding: .5rem 1rem;
     margin: 0;
     cursor: pointer;
-    color: var(--color-2);
+    color: #ffffff00;
     font-weight: bold;
 }
 
@@ -306,7 +306,7 @@ body {
 
 /* СУДЬЯ */
 .judge__wrapper {
-    margin: 3rem 12rem;
+    margin: 2rem 2rem;
     box-sizing: border-box;
     overflow: hidden;
     background: #ffffff;
@@ -373,9 +373,16 @@ body {
     font-size: 1.25rem;
     vertical-align: middle;
 }
+.custom__table._everyone tbody tr:nth-last-child(4n-4),
+.custom__table._everyone tbody tr:nth-last-child(4n-3) {
+    background-color: #00a6ff20;
+}
 
-.custom__table tbody tr:nth-child(even) {
-    background-color: var(--color-1);
+.custom__table._top10 tbody tr:nth-last-child(-n+16),
+.custom__table._top18 tbody tr:nth-last-child(-n+11),
+.custom__table._everyone tbody tr:nth-last-child(-n+3) {
+    background-color: #ededed;
+    color: #8f8f8f;
 }
 
 .custom__table thead tr th:first-child,
@@ -403,7 +410,7 @@ body {
     margin: 0.25rem 0;
     padding: 0.15rem;
     font-size: 1.25rem;
-    background: #e0e0e0;
+    background: var(--color-1);
 }
 .progress {
     position: absolute;

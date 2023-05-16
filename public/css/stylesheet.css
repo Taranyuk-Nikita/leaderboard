@@ -1,0 +1,216 @@
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-Regular.eot');
+    src: local('Zona Pro Regular'), local('ZonaPro-Regular'),
+        url('../ZonaPro-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../ZonaPro-Regular.woff2') format('woff2'),
+        url('../ZonaPro-Regular.woff') format('woff'),
+        url('../ZonaPro-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-Bold.eot');
+    src: local('Zona Pro Bold'), local('ZonaPro-Bold'),
+        url('../fonts/ZonaPro-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-Bold.woff2') format('woff2'),
+        url('../fonts/ZonaPro-Bold.woff') format('woff'),
+        url('../fonts/ZonaPro-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-SemiBold.eot');
+    src: local('Zona Pro SemiBold'), local('ZonaPro-SemiBold'),
+        url('../fonts/ZonaPro-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-SemiBold.woff2') format('woff2'),
+        url('../fonts/ZonaPro-SemiBold.woff') format('woff'),
+        url('../fonts/ZonaPro-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zona Pro Ultra';
+    src: url('../fonts/ZonaPro-UltraItalic.eot');
+    src: local('Zona Pro Ultra Italic'), local('ZonaPro-UltraItalic'),
+        url('../fonts/ZonaPro-UltraItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-UltraItalic.woff2') format('woff2'),
+        url('../fonts/ZonaPro-UltraItalic.woff') format('woff'),
+        url('../fonts/ZonaPro-UltraItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zona Pro Ultra';
+    src: url('../fonts/ZonaPro-Ultra.eot');
+    src: local('Zona Pro Ultra'), local('ZonaPro-Ultra'),
+        url('../fonts/ZonaPro-Ultra.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-Ultra.woff2') format('woff2'),
+        url('../fonts/ZonaPro-Ultra.woff') format('woff'),
+        url('../fonts/ZonaPro-Ultra.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-Black.eot');
+    src: local('Zona Pro Black'), local('ZonaPro-Black'),
+        url('../fonts/ZonaPro-Black.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-Black.woff2') format('woff2'),
+        url('../fonts/ZonaPro-Black.woff') format('woff'),
+        url('../fonts/ZonaPro-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-Light.eot');
+    src: local('Zona Pro Light'), local('ZonaPro-Light'),
+        url('../fonts/ZonaPro-Light.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-Light.woff2') format('woff2'),
+        url('../fonts/ZonaPro-Light.woff') format('woff'),
+        url('../fonts/ZonaPro-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zona Pro Regular';
+    src: url('../fonts/ZonaPro-RegularItalic.eot');
+    src: local('Zona Pro Regular Italic'), local('ZonaPro-RegularItalic'),
+        url('../fonts/ZonaPro-RegularItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-RegularItalic.woff2') format('woff2'),
+        url('../fonts/ZonaPro-RegularItalic.woff') format('woff'),
+        url('../fonts/ZonaPro-RegularItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zona Pro Hairline';
+    src: url('../fonts/ZonaPro-Hairline.eot');
+    src: local('Zona Pro Hairline'), local('ZonaPro-Hairline'),
+        url('../fonts/ZonaPro-Hairline.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-Hairline.woff2') format('woff2'),
+        url('../fonts/ZonaPro-Hairline.woff') format('woff'),
+        url('../fonts/ZonaPro-Hairline.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-LightItalic.eot');
+    src: local('Zona Pro Light Italic'), local('ZonaPro-LightItalic'),
+        url('../fonts/ZonaPro-LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-LightItalic.woff2') format('woff2'),
+        url('../fonts/ZonaPro-LightItalic.woff') format('woff'),
+        url('../fonts/ZonaPro-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-BlackItalic.eot');
+    src: local('Zona Pro Black Italic'), local('ZonaPro-BlackItalic'),
+        url('../fonts/ZonaPro-BlackItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-BlackItalic.woff2') format('woff2'),
+        url('../fonts/ZonaPro-BlackItalic.woff') format('woff'),
+        url('../fonts/ZonaPro-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-ExtraBold.eot');
+    src: local('Zona Pro ExtraBold'), local('ZonaPro-ExtraBold'),
+        url('../fonts/ZonaPro-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-ExtraBold.woff2') format('woff2'),
+        url('../fonts/ZonaPro-ExtraBold.woff') format('woff'),
+        url('../fonts/ZonaPro-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-BoldItalic.eot');
+    src: local('Zona Pro Bold Italic'), local('ZonaPro-BoldItalic'),
+        url('../fonts/ZonaPro-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-BoldItalic.woff2') format('woff2'),
+        url('../fonts/ZonaPro-BoldItalic.woff') format('woff'),
+        url('../fonts/ZonaPro-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-ExtraBoldItalic.eot');
+    src: local('Zona Pro ExtraBold Italic'), local('ZonaPro-ExtraBoldItalic'),
+        url('../fonts/ZonaPro-ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-ExtraBoldItalic.woff2') format('woff2'),
+        url('../fonts/ZonaPro-ExtraBoldItalic.woff') format('woff'),
+        url('../fonts/ZonaPro-ExtraBoldItalic.ttf') format('truetype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-SemiBoldItalic.eot');
+    src: local('Zona Pro SemiBold Italic'), local('ZonaPro-SemiBoldItalic'),
+        url('../fonts/ZonaPro-SemiBoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-SemiBoldItalic.woff2') format('woff2'),
+        url('../fonts/ZonaPro-SemiBoldItalic.woff') format('woff'),
+        url('../fonts/ZonaPro-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zona Pro Hairline';
+    src: url('../fonts/ZonaPro-HairlineItalic.eot');
+    src: local('Zona Pro Hairline Italic'), local('ZonaPro-HairlineItalic'),
+        url('../fonts/ZonaPro-HairlineItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-HairlineItalic.woff2') format('woff2'),
+        url('../fonts/ZonaPro-HairlineItalic.woff') format('woff'),
+        url('../fonts/ZonaPro-HairlineItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-Thin.eot');
+    src: local('Zona Pro Thin'), local('ZonaPro-Thin'),
+        url('../fonts/ZonaPro-Thin.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-Thin.woff2') format('woff2'),
+        url('../fonts/ZonaPro-Thin.woff') format('woff'),
+        url('../fonts/ZonaPro-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zona Pro';
+    src: url('../fonts/ZonaPro-ThinItalic.eot');
+    src: local('Zona Pro Thin Italic'), local('ZonaPro-ThinItalic'),
+        url('../fonts/ZonaPro-ThinItalic.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ZonaPro-ThinItalic.woff2') format('woff2'),
+        url('../fonts/ZonaPro-ThinItalic.woff') format('woff'),
+        url('../fonts/ZonaPro-ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+

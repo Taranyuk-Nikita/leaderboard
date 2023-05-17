@@ -380,7 +380,7 @@ function show_results() {
 		player_points += `
         <div class="member_res">
             <span class="member" id="4545">${member}</span>
-            <span class="points" id="4545">${membersPoints[member]}</span>
+            <span class="points" id="4545">${document.querySelector(`button[data-member-name='${member}']`).dataset.mamberNum}. ${membersPoints[member]}</span>
         </div>
 		`
 	}

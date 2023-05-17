@@ -75,7 +75,7 @@
                 <button id="set_time-limit" data-status="00s">00s</button>
                 <button id="pack_result" data-status="disable"><i class="fa-solid fa-square-poll-vertical"></i></button>
                 <% members.forEach(member => { %>
-                    <button class="members" id="<%= member.id %>" data-member-name="<%= member.username %>"><%= member.usernumber %></button>
+                    <button class="members" id="<%= member.id %>" data-member-name="<%= member.username %>" data-member-num="<%= member.usernumber %>"><%= member.usernumber %></button>
                 <% }) %>
             </div>
             <div class="countdown_wrapper">

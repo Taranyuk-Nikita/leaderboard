@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/victorina.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+    <title>Викторина</title>
+</head>
+<style>
+.result_modal._block {
+    display: none;
+}
+.result_modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: #00000070;
+}
+.modal_wrapper {
+    background: #ffffff;
+    padding: 2rem 6rem;
+    border-radius: 2rem;
+}
+.member_res {
+    display: flex;
+    justify-content: space-between;
+}
+.modal_title {
+    margin: 0 0 2rem 0;
+    font-size: 3rem;
+}
+.modal_body {
+    display: flex;
+    flex-direction: column;
+}
+.member_res {
+    font-size: 2rem;
+    margin: 0 0 .5rem 0;
+}
+#send_res {
+    opacity: .5;
+}
+</style>
+<body>
+    <div class="result_modal _block">
+        <div class="modal_wrapper">
+            <h2 class="modal_title">РЕЗУЛЬТАТЫ ИГРЫ</h2>
+            <div class="modal_body">
+                <div class="member_res">
+                    <span class="member" id="4545">Участник</span>
+                    <span class="points" id="4545">140</span>
+                </div>
+            </div>
+            <button id="send_res">Отправить</button>
+
+        </div>
+    </div>
+    <div class="victorina_wrapper">
+        <div class="controll_panel">
+            <div class="btns_wrapper">
+                <button id="select_round_1">р1</button>
+                <button id="select_round_2">р2</button>
+                <button id="select_round_3">р3</button>
+                <button id="countdown_start-stop" data-status="pause"><i class="fa-solid fa-play"></i></button>
+                <button id="countdown-refresh"><i class="fa-solid fa-arrows-rotate"></i></button>
+                <button id="set_time-limit" data-status="00s">00s</button>
+                <button id="pack_result" data-status="disable"><i class="fa-solid fa-square-poll-vertical"></i></button>
+                <% members.forEach(member => { %>
+                    <button class="members" id="<%= member.id %>" data-member-name="<%= member.username %>"><%= member.usernumber %></button>
+                <% }) %>
+            </div>
+            <div class="countdown_wrapper">
+                <div id="app"></div>
+            </div>
+            <div class="roundinfo_wrapper">
+                第1环节
+            </div>
+        </div>
+        <div class="rounds_wrapper">
+            <div class="round1">
+                <div class="round_blank">
+                    <span class="blank_title">开始</span>
+                </div>
+                <div class="r1_question_wrapper">
+                    <div class="r1_question_text">
+                        以下哪一个“儿”与其他的不同?
+                    </div>
+                    <div class="r1_question_variants">
+                        <span class="variant" id="answer1" data-rightanswer="true">A. 弄潮儿</span>
+                        <span class="variant" id="answer2">B. 针尖儿</span>
+                        <span class="variant" id="answer3">C. 小事儿</span>
+                    </div>
+                </div>
+                <div class="questions_storage">
+                    <div class="question_2">
+                        <div class="question_text">中国有 _____ 个少数民族，<br>各民族的节日丰富多彩。</div>
+                        <div class="answer_1">A. 56</div>
+                        <div class="answer_2">B. 53</div>
+                        <div class="answer_3" data-right>C. 55</div>
+                    </div>
+                    <div class="question_3">
+                        <div class="question_text">在中国神话中，<br>用泥土造人的是 _____ 。</div>
+                        <div class="answer_1">A. 夸父</div>
+                        <div class="answer_2" data-right>B. 女娲</div>
+                        <div class="answer_3">C. 神农氏</div>
+                    </div>
+                    <div class="question_4">
+                        <div class="question_text">在中国传统的二十四节气中，<br>最冷的节气是 _____ 。</div>
+                        <div class="answer_1">A. 冬至</div>
+                        <div class="answer_2" data-right>B. 大寒</div>
+                        <div class="answer_3">C. 大雪</div>
+                    </div>
+                    <div class="question_5">
+                        <div class="question_text">被列入“世界文化遗产”<br>的“丽江古城”在中国的 _____ 省。</div>
+                        <div class="answer_1">A. 湖南</div>
+                        <div class="answer_2">B. 河南</div>
+                        <div class="answer_3" data-right>C. 云南</div>
+                    </div>
+                </div>
+            </div>
+            <div class="round2">
+                <div class="round_blank" style="font-size: 8rem;">
+                    <span class="blank_title">1号选手</span>
+                </div>
+                <div class="r2_question_wrapper">
+                    <div class="r2_question_text">
+                        这次考试我得了98分，<br> ________ 就是满分了。  
+                    </div>
+                    <div class="r2_question_variants _block">
+                        <span class="variant" id="answer1">差一点 / 差点儿</span>
+                    </div>
+                </div>
+                <div class="questions_storage">
+                    <div class="question_2">
+                        <div class="question_text">中国的茶种类丰富，有绿茶、<br>红茶、黑茶等等，普洱茶属于______。</div>
+                        <div class="answer">黑茶</div>
+                    </div>
+                    <div class="question_3">
+                        <div class="question_text"> __________ 是中国的国球，<br>中国人非常喜欢这项运动。</div>
+                        <div class="answer">乒乓球</div>
+                    </div>
+                    <div class="question_4">
+                        <div class="question_text">四合院又叫四合房，它的中心是院子，<br>四面都建有房屋，<br>请问它是哪个城市的特色建筑？</div>
+                        <div class="answer">北京</div>
+                    </div>
+                    <div class="question_5">
+                        <div class="question_text">数学中1、 3、 5、 7 、9 是10<br>以内的奇数，“奇”字的正确读音是 ___ ?</div>
+                        <div class="answer">jī</div>
+                    </div>
+                    <div class="question_6">
+                        <div class="question_text">“豆蔻（kòu）年华”<br>形容女子年轻时的样貌，<br>其中“豆蔻” 指的是女子______岁。</div>
+                        <div class="answer">十三岁</div>
+                    </div>
+                    <div class="question_7">
+                        <div class="question_text">我们常用“但愿人长久，千里共婵娟。<br>”表达美好的祝愿，请问这句诗中的“婵娟” <br>指的是 _____ 。</div>
+                        <div class="answer">月亮</div>
+                    </div>
+                    <div class="question_8">
+                        <div class="question_text">青稞酒和酥油茶是中国<br> ______ 族的传统饮品。</div>
+                        <div class="answer">藏族</div>
+                    </div>
+                    <div class="question_9">
+                        <div class="question_text">在中国最有可能看到<br>“天苍苍,野茫茫,风吹草低见牛羊”<br>场景的地方是 ________ 。</div>
+                        <div class="answer">内蒙古自治区</div>
+                    </div>
+                    <div class="question_10">
+                        <div class="question_text">中国古代思想家用五种元素来说明世界万物的起源，<br>称为“五行”，包括金、<br>木、水、火、______。</div>
+                        <div class="answer">土</div>
+                    </div>
+                    <div class="question_11">
+                        <div class="question_text">《木兰辞》讲述了______女扮男装，<br>替父从军，在战场英勇杀敌，<br>获胜后回到家乡的故事。</div>
+                        <div class="answer">花木兰 </div>
+                    </div>
+                    <div class="question_12">
+                        <div class="question_text">2022年北京冬奥会吉祥物的形象来源于中国国宝大<br>熊猫，它的名字是_______ ？</div>
+                        <div class="answer">冰墩墩</div>
+                    </div>
+                    <div class="question_13">
+                        <div class="question_text">中国拥有众多历史文化名城。<br>______市曾是13个王朝的首都。</div>
+                        <div class="answer">西安</div>
+                    </div>
+                    <div class="question_14">
+                        <div class="question_text">“金文”是中国的一种早期文字形式，<br>因其铸刻在钟、鼎等青铜器上，<br>也称为 ______ 。</div>
+                        <div class="answer">钟鼎文</div>
+                    </div>
+                    <div class="question_15">
+                        <div class="question_text">汉语中，常把被雨淋湿的人比作落汤<br>______。</div>
+                        <div class="answer">鸡</div>
+                    </div>
+                    <div class="question_16">
+                        <div class="question_text">请问中国“河北省”和“<br>河南省”中的“河”指的是 ______ 。</div>
+                        <div class="answer">黄河</div>
+                    </div>
+                    <div class="question_17">
+                        <div class="question_text">
+                            <div style="display: flex; flex-direction: row; flex-direction: row; align-content: center; justify-content: space-around;">
+                                <div>
+                                    <img src="/img/123123.png" alt="" srcset="">
+                                </div>
+                                <div>
+                                    汉语的数字很有趣，<br>很多成语中都含有数字，<br>看下图是什么成语？
+                                </div>
+                            </div>
+                        </div>
+                        <div class="answer">九牛一毛</div>
+                    </div>
+                    <div class="question_18">
+                        <div class="question_text">中国“大运河”是世界上最长、规模最大的运河。<br>它是贯通南北的大型水利工程。<br>请问它是哪个朝代开始修建的？</div>
+                        <div class="answer">隋朝</div>
+                    </div>
+                    <div class="question_19">
+                        <div class="question_text">中国的国家通用语是 ______ 。</div>
+                        <div class="answer">普通话</div>
+                    </div>
+                    <div class="question_20">
+                        <div class="question_text">关于人类的起源，不同的文化有不同的故事。<br>中国文化中关于人类起源的故事是______？</div>
+                        <div class="answer">盘古开天  </div>
+                    </div>
+                    <div class="question_21">
+                        <div class="question_text">中国文学四大名著，是指《三国演义》<br>《西游记》《水浒传》和《______》。</div>
+                        <div class="answer">红楼梦</div>
+                    </div>
+                </div>
+            </div>
+            <div class="round3">
+                <div class="round_blank">
+                    <span class="blank_title">开始</span>
+                </div>
+                <div class="cards_wrapper">
+                    <div class="card_row1">
+                        <div class="theam_card" data-theam="1">中文知识</div>
+                        <div class="theam_card" data-theam="2">文学艺术</div>
+                        <div class="theam_card" data-theam="3">文化习俗</div>
+                        <div class="theam_card" data-theam="4">国情知识</div>
+                    </div>
+                    <div class="card_row2" style="width: calc(405.34px * 3 + 4rem); margin: 0 auto;">
+                        <div class="theam_card" data-theam="5">历史地理</div>
+                        <div class="theam_card" data-theam="6">教育科技</div>
+                        <div class="theam_card" data-theam="7">生态环境</div>
+                    </div>
+                </div>
+                <div class="r3_question_wrapper _hide">
+                    <div class="r3_question_text">
+
+                    </div>
+                    <div class="r3_question_variants">
+                        <span class="variant" id="answer1">A. </span>
+                        <span class="variant" id="answer2">B. </span>
+                        <span class="variant" id="answer3">C. </span>
+                    </div>
+                </div>
+                <div class="questions_storage">
+                    <div class="question_1_1">
+                        <div class="question_text">下面哪个汉字表示“许多人”？</div>
+                        <div class="answer_1">A. 从</div>
+                        <div class="answer_2" data-right>B. 众</div>
+                        <div class="answer_3">C. 丛</div>
+                    </div>
+                    <div class="question_1_2">
+                        <div class="question_text">“我去过两次上海”中的“次”<br>还可以换成______。</div>
+                        <div class="answer_1">A. 下</div>
+                        <div class="answer_2">B. 来</div>
+                        <div class="answer_3" data-right>C.回</div>
+                    </div>
+                    <div class="question_1_3">
+                        <div class="question_text">我昨天一直在图书馆看书，<br>_________ 商店买衣服。</div>
+                        <div class="answer_1" data-right>A. 没去</div>
+                        <div class="answer_2">B. 不去</div>
+                        <div class="answer_3">C. 没去了</div>
+                    </div>
+                    <div class="question_1_4">
+                        <div class="question_text">“找他帮忙，我已经碰两次钉子了，<br>不想再求他了”。这句话的意思是：</div>
+                        <div class="answer_1" data-right>A. 他拒绝我两次了</div>
+                        <div class="answer_2">B. 我找过他两次了</div>
+                        <div class="answer_3">C. 我被钉子扎两次了</div>
+                    </div>
+                    <div class="question_2_1">
+                        <div class="question_text"> 唐朝是中国古典诗歌发展的全盛时期，李白、<br>______和白居易是唐朝历史上成就最高、<br>影响最大的诗人。</div>
+                        <div class="answer_1">A. 杜康</div>
+                        <div class="answer_2">B. 杜牧</div>
+                        <div class="answer_3" data-right>C. 杜甫 </div>
+                    </div>
+                    <div class="question_2_2">
+                        <div class="question_text">“柔情似水，佳期如梦，忍顾鹊桥归路”<br>跟中国的哪个传统节日有关？</div>
+                        <div class="answer_1">A. 中秋节</div>
+                        <div class="answer_2" data-right>B. 七夕节</div>
+                        <div class="answer_3">C. 春节</div>
+                    </div>
+                    <div class="question_2_3">
+                        <div class="question_text">“箫”是中国特有的乐器，<br>你知道它是用什么制成的吗？ </div>
+                        <div class="answer_1" data-right>A. 竹子</div>
+                        <div class="answer_2">B. 塑料</div>
+                        <div class="answer_3">C. 金属</div>
+                    </div>
+                    <div class="question_2_4">
+                        <div class="question_text"><span style="font-size: 3rem;">京剧脸谱色彩含义丰富，<br>黑色一般表示正直无私的人物性格，<br>以下哪一个脸谱可以表现人物英勇、忠贞的性格 ？</span></div>
+                        <div class="answer_1">A. <img style="width: 240px;" src="/img/3.png" alt="" srcset=""></div>
+                        <div class="answer_2">B. <img style="width: 240px;" src="/img/2.png" alt="" srcset=""></div>
+                        <div class="answer_3" data-right>C. <img style="width: 240px;" src="/img/1.png" alt="" srcset=""></div>
+                    </div>
+                    <div class="question_3_1">
+                        <div class="question_text">每年农历的九月初九是______，因为“九”<br>与“久”读音相同，所以寄托着人们对长者健康长寿的<br>祝福，被称为敬老节。</div>
+                        <div class="answer_1">A. 父母节</div>
+                        <div class="answer_2" data-right>B. 重阳节</div>
+                        <div class="answer_3">C. 团圆节</div>
+                    </div>
+                    <div class="question_3_2">
+                        <div class="question_text">中国古人把一昼夜的时间分为十二个时辰，<br>请问一个时辰相当于几个小时？</div>
+                        <div class="answer_1">A. 1</div>
+                        <div class="answer_2" data-right>B. 2</div>
+                        <div class="answer_3">C. 12</div>
+                    </div>
+                    <div class="question_3_3">
+                        <div class="question_text">“爆竹声中一岁除”是传承千百年的中国春节习俗。<br>近年来，绿色环保过春节正成为“新年俗”。<br>这体现了       。</div>
+                        <div class="answer_1" data-right>A. 中国人的环保意识不断加强</div>
+                        <div class="answer_2">B. 中国人不喜欢燃放烟花爆竹</div>
+                        <div class="answer_3">C. 中国人不重视传统文化</div>
+                    </div>
+                    <div class="question_3_4">
+                        <div class="question_text">国子监是中国元、明、<br>清三代的最高学府，当时，<br>在国子监读书的学生被称为______。</div>
+                        <div class="answer_1">A. 学子</div>
+                        <div class="answer_2">B. 国子</div>
+                        <div class="answer_3" data-right>C. 监生</div>
+                    </div>
+                    <div class="question_4_1">
+                        <div class="question_text">中国人结婚时，<br>喜欢在门窗上贴大红的_______字，<br>寓意大吉大利，好事成双。</div>
+                        <div class="answer_1" data-right>A. 囍</div>
+                        <div class="answer_2">B. 喆</div>
+                        <div class="answer_3">C. 赫</div>
+                    </div>
+                    <div class="question_4_2">
+                        <div class="question_text">中国海拔最高的高原是青藏高原，<br>被称为 “世界屋脊”，<br>世界海拔最高的山脉位于它的南巅边缘，<br>请问山脉的名字是什么？</div>
+                        <div class="answer_1" data-right>A. 喜马拉雅山脉</div>
+                        <div class="answer_2">B. 昆仑山脉</div>
+                        <div class="answer_3">C. 天山山脉</div>
+                    </div>
+                    <div class="question_4_3">
+                        <div class="question_text">粤港澳大湾区是中国开放程度最高、<br>经济活力最强的区域之一，<br>请问粤港澳大湾区指的是？</div>
+                        <div class="answer_1">A. 香港、福建、海南</div>
+                        <div class="answer_2">B. 广东、台湾、澳门</div>
+                        <div class="answer_3" data-right>C. 香港、澳门、广东</div>
+                    </div>
+                    <div class="question_4_4">
+                        <div class="question_text">支付宝是中国最大的第三方支付平台，<br>请问下面哪个选项不属于支付宝的服务？</div>
+                        <div class="answer_1">A. 信用卡还款</div>
+                        <div class="answer_2">B. 跨行转账</div>
+                        <div class="answer_3" data-right>C. 电子邮件</div>
+                    </div>
+                    <div class="question_5_1">
+                        <div class="question_text">中国南北方气候差异很大。<br>昆明在中国南方，四季如春，被称为“春城”；<br>哈尔滨在中国北方，非常寒冷，被称为______。</div>
+                        <div class="answer_1">A. 煤城</div>
+                        <div class="answer_2">B. 羊城</div>
+                        <div class="answer_3" data-right>C. 冰城</div>
+                    </div>
+                    <div class="question_5_2">
+                        <div class="question_text">中国四大名著之一的《水浒传》<br>描写的是梁山好汉的故事，<br>其中“梁山”位于现在的哪个省？</div>
+                        <div class="answer_1">A. 陕西省</div>
+                        <div class="answer_2">B. 山西省</div>
+                        <div class="answer_3" data-right>C. 山东省</div>
+                    </div>
+                    <div class="question_5_3">
+                        <div class="question_text">
+                            <div style="display: flex; flex-direction: row; flex-direction: row; align-content: center; justify-content: center;">
+                                <div style="font-size: 2.5rem;">中国“大运河”是世界上最长、规模最大的运河。<br>它是贯通南北的大型水利工程。<br>请问它是哪个朝代开始修建的？</div>
+                                <div style="width: 520px; height: auto;">
+                                    <img style="display: block; width: 100%; object-fit: contain;" src="/img/13-1.jpg" alt="" srcset="">
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="answer_1">A. 秦朝</div>
+                        <div class="answer_2" data-right>B. 隋朝</div>
+                        <div class="answer_3">C. 清朝</div>
+                    </div>
+                    <div class="question_5_4">
+                        <div class="question_text">“过五关斩六将”比喻克服重重困难。<br>与这个熟语相关的历史人物是 ______ 。</div>
+                        <div class="answer_1" data-right>A. 关羽</div>
+                        <div class="answer_2">B. 孙权</div>
+                        <div class="answer_3">C. 周瑜</div>
+                    </div>
+                    <div class="question_6_1">
+                        <div class="question_text">中国古代医生扁鹊精通医术，<br>“望色”是他的“四诊法”之一，<br>这里的“望”指的是什么？</div>
+                        <div class="answer_1" data-right>A. 观察病人的神情状态</div>
+                        <div class="answer_2">B. 听病人的声音</div>
+                        <div class="answer_3">C. 询问病人的病情</div>
+                    </div>
+                    <div class="question_6_2">
+                        <div class="question_text">孩子是民族的希望，<br>为了改善贫困地区的办学条件，<br>中国实施的一项工程叫做______。</div>
+                        <div class="answer_1" data-right>A. 希望工程</div>
+                        <div class="answer_2">B. 明日工程</div>
+                        <div class="answer_3">C. 未来工程</div>
+                    </div>
+                    <div class="question_6_3">
+                        <div class="question_text">中国伟大的教育家孔子提出了“举一反三”<br>的学习方法，意思是？</div>
+                        <div class="answer_1">A. 学会一道题，<br>就能学会三道题</div>
+                        <div class="answer_2" data-right>B. 学习知识要善于类推</div>
+                        <div class="answer_3">C. 学知识要反复练习、<br>多多复习</div>
+                    </div>
+                    <div class="question_6_4">
+                        <div class="question_text">中国文化提倡尊重师长，为此还设立了教师节。<br>学生常常在___________教师节这一天给老师送上祝福，<br>表达对老师的感激之情。</div>
+                        <div class="answer_1">A. 5月1日</div>
+                        <div class="answer_2" data-right>B. 9月10日</div>
+                        <div class="answer_3">C. 10月1日</div>
+                    </div>
+                    <div class="question_7_1">
+                        <div class="question_text">
+                            <div style="display: flex; flex-direction: row; flex-direction: row; align-content: center; justify-content: center;">
+                                <div style="font-size: 2.5rem;">中国生态环境保护吉祥物是一对名为<br>______和______的卡通形象，<br>以“青山绿水”为设计原型，<br>希望人人都像珍惜生命一样保护生态环境。</div>
+                                <div style="width: 520px; height: auto;">
+                                    <img style="display: block; width: 100%; object-fit: contain;" src="/img/W020201022348617618591.png" alt="" srcset="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="answer_1" data-right>A. 小山，小水</div>
+                        <div class="answer_2">B. 小绿，小蓝</div>
+                        <div class="answer_3">C. 山山，水水</div>
+                    </div>
+                    <div class="question_7_2">
+                        <div class="question_text">为了节约资源、保护环境，<br>实现可持续发展，中国政府近年来大力推行<br>______汽车。</div>
+                        <div class="answer_1">A. 智能</div>
+                        <div class="answer_2" data-right>B. 新能源</div>
+                        <div class="answer_3">C. 燃油</div>
+                    </div>
+                    <div class="question_7_3">
+                        <div class="question_text">“三北防护林”是大型人工林业生态工程，<br>此项工程的主要目的是什么？</div>
+                        <div class="answer_1" data-right>A. 改善生态环境</div>
+                        <div class="answer_2">B. 建造美丽景观</div>
+                        <div class="answer_3">C. 增加经济收入</div>
+                    </div>
+                    <div class="question_7_4">
+                        <div class="question_text">中国新能源产业进一步发展，<br>可以比作“风”“光”“无限”，其中，<br>“风”指的是风能，“光”指的是？</div>
+                        <div class="answer_1">A. 电能</div>
+                        <div class="answer_2">B. 核能</div>
+                        <div class="answer_3" data-right>C. 太阳能</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+<script src="/js/victorina.js"></script>
+<script src="https://kit.fontawesome.com/b6f52fc10b.js" crossorigin="anonymous"></script>
+
+</html>

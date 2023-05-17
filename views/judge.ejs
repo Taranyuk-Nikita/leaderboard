@@ -295,6 +295,8 @@
                     marks.results[mark.parentElement.parentElement.id] = mark.value
                 })
                 sendRequest('PATCH', `/judge/${document.querySelector('.page_title').id}`, marks)
+                document.querySelector('.confirm_mark').removeAttribute('id')
+                document.querySelector('.modal').classList.toggle('_active')
             }
         } else alert("Проставте оценки каждому участнику конкурса перед отправкой!")
     })

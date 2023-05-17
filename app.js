@@ -65,7 +65,7 @@ app.post('/auth', (request, response) => {
       }
       response.cookie("user_token", accessToken, {
         httpOnly: true,
-        maxAge: 15000 * 1000,
+        maxAge: 30000 * 1000,
         path: getURLaccess,
         domain: LOCALHOST
       })
@@ -178,23 +178,15 @@ app.get('/contest/:contestId/:judegId', (request, response) => {
           }
         }
       })
-      if (contest.rules === "top18" && contest.scores === "edit") {
-        getTop(18)
-      } else if (contest.rules === "top10" && contest.scores === "edit") {
-        getTop(10)
-      }
       result_table = results_tables.find(table => { return table.tablename === `results_${contest.id}` })
       for (const [key, value] of Object.entries(result_table.tableinner)) {
         result_table.tableinner[`${key}`] = result_table.tableinner[`${key}`][request.params.judegId]
       }
-      return { members, contest, result_table }
+      response.json({ members, contest, result_table }) 
     } else if (contest.status === "disable") {
       message = "This contest has not yet begun"
       response.json({ message })
     }
-  }).then(resData => {
-    const { members, contest, result_table } = resData
-    response.json({ members, contest, result_table })
   }).catch(err => {
     console.log(err)
   })
@@ -235,14 +227,14 @@ app.get('/spectator/:id', authenticateJWT, (request, response) => {
       }
       member['sum'] = memberSum
     })
-    let sortedMembers = []
-    contests.forEach(contest => {
-      sortedMembers[`sort_${contest.id}`] = [...members].sort(byFieldToDown(`contest_${contest.id}`))
-    })
+    // let sortedMembers = []
+    // contests.forEach(contest => {
+    //   sortedMembers[`sort_${contest.id}`] = [...members].sort(byFieldToDown(`contest_${contest.id}`))
+    // })
     let sortMembers = [...members].sort(byFieldToDown('sum'))
     teams.sort(byFieldToDown('sum'))
-    console.log(sortedMembers);
-    response.render('viewer', { sortedMembers, sortMembers, teams, votingResults, results_tables, contests })
+    // console.log(sortedMembers);
+    response.render('viewer', { members, sortMembers, teams, votingResults, results_tables, contests })
   }).catch(err => {
     console.log(err)
   })
@@ -251,8 +243,16 @@ app.get('/spectator/:id', authenticateJWT, (request, response) => {
 app.get('/gamemaster/:id', (request, response) => {
   fs.promises.readFile(__dirname + DB_file).then(data => {
     data = JSON.parse(data)
+    judge = {
+      id: data.users.find(judge => judge.id === request.params.id).id,
+      fio: data.users.find(judge => judge.id === request.params.id).username
+    }
+    contests = data.contests
+    contests.forEach(contest => contest.scores = contest.scores[request.params.id])
+    contests = contests.filter(contest => { return contest.scores != undefined })
+    
     let gmId = request.params.id
-    response.render(`gamemaster`, { gmId })
+    response.render(`gamemaster`, { gmId, judge, contests })
   }).catch(err => {
     console.log(err)
   })
@@ -261,8 +261,8 @@ app.get('/gamemaster/:id/:contestId', authenticateJWT, (request, response) => {
   fs.promises.readFile(__dirname + DB_file).then(data => {
     data = JSON.parse(data)
     contest = data.contests.find(contest => contest.id === request.params.contestId)
-    if (contest.status === "enable") {
-      contest.scores = contest.scores[request.params.id]
+    if (data.contests.find(contest => contest.id === request.params.contestId).status == "enable") {
+      data.contests.find(contest => contest.id === request.params.contestId).scores = data.contests.find(contest => contest.id === request.params.contestId).scores[request.params.id]
       results_tables = data.results_tables
       results_tables.pop()
       members = data.users.filter(u => { return u.role === 'member' })
@@ -279,8 +279,8 @@ app.get('/gamemaster/:id/:contestId', authenticateJWT, (request, response) => {
           }
         }
       })
-      if (contest.rules === "top5" && contest.scores === "edit") {
-        getTop(5)
+      if (data.contests.find(contest => contest.id === request.params.contestId).rules === "top7" && data.contests.find(contest => contest.id === request.params.contestId).scores === "edit") {
+        getTop(7)
       } else if (contest.scores === "marked") {
         response.redirect(`/gamemaster/${request.params.id}`)
       }
@@ -288,6 +288,8 @@ app.get('/gamemaster/:id/:contestId', authenticateJWT, (request, response) => {
       for (const [key, value] of Object.entries(result_table.tableinner)) {
         result_table.tableinner[`${key}`] = result_table.tableinner[`${key}`][request.params.id]
       }
+
+      console.log(contest.status);
       return { members, contest, result_table }
     } else if (contest.status === "disable") {
       message = "This contest has not yet begun"
@@ -300,7 +302,7 @@ app.get('/gamemaster/:id/:contestId', authenticateJWT, (request, response) => {
         response.render('game_debate')
         break;
       case '8a8f4fbc-d09d-4a33-a794-92a384e0335b':
-        response.render('game_my-game', { members, contest, result_table })
+        response.render('game_victorina', { members, contest, result_table })
         break;
       default:
         response.redirect(`/gamemaster/${request.params.id}`)
@@ -437,5 +439,5 @@ function propSum(object) {
   for (let prop of Object.values(object)) {
     sum += prop;
   }
-  return sum; // 650
+  return sum;
 }

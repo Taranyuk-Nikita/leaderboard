@@ -373,7 +373,7 @@ body {
     font-size: 1.25rem;
     vertical-align: middle;
 }
-.custom__table._everyone tbody tr:nth-last-child(4n-4),
+/* .custom__table._everyone tbody tr:nth-last-child(4n-4),
 .custom__table._everyone tbody tr:nth-last-child(4n-3) {
     background-color: #00a6ff20;
 }
@@ -383,7 +383,7 @@ body {
 .custom__table._everyone tbody tr:nth-last-child(-n+3) {
     background-color: #ededed;
     color: #8f8f8f;
-}
+} */
 
 .custom__table thead tr th:first-child,
 .custom__table tbody tr td:first-child {

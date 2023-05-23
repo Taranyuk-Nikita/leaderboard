@@ -370,15 +370,15 @@ body {
     text-align: center;
     border: none;
     padding: 0.15rem 0.5rem;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     vertical-align: middle;
 }
-/* .custom__table._everyone tbody tr:nth-last-child(4n-4),
-.custom__table._everyone tbody tr:nth-last-child(4n-3) {
-    background-color: #00a6ff20;
+
+.custom__table tbody tr:nth-last-child(2n+1) {
+    background-color: #efefef;
 }
 
-.custom__table._top10 tbody tr:nth-last-child(-n+16),
+/* .custom__table._top10 tbody tr:nth-last-child(-n+16),
 .custom__table._top18 tbody tr:nth-last-child(-n+11),
 .custom__table._everyone tbody tr:nth-last-child(-n+3) {
     background-color: #ededed;

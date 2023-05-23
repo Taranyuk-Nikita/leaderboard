@@ -26,14 +26,13 @@
                                 <th>Судья 2</th>
                                 <th>Судья 3</th>
                                 <th>Судья 4</th>
-                                <th>Игра</th>
                                 <th style="background: var(--color-4); color: var(--color-6);">ИТОГ</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% members.forEach(member => { %>
                                 <tr id="<%= member.id %>">
-                                    <td><%= member.userteam %>/<%= member.usernumber %></td>
+                                    <td><%= member.usernumber %></td>
                                         <% let contest_point = 0 %>
                                         <% for (let anotherKey in member.points[contest.id]) { %>
                                             <td style="text-align: center;"><%= member.points[contest.id][anotherKey] %></td>
@@ -57,7 +56,6 @@
                                 <th>I этап</th>
                                 <th>II этап</th>
                                 <th>III этап</th>
-                                <th>IV этап</th>
                                 <th style="background: var(--color-4); color: var(--color-6);">ИТОГ</th>
                             </tr>
                         </thead>
@@ -89,7 +87,6 @@
                                 <th>I этап</th>
                                 <th>II этап</th>
                                 <th>III этап</th>
-                                <th>IV этап</th>
                                 <th style="background: var(--color-4); color: var(--color-6);">ИТОГ</th>
                             </tr>
                         </thead>

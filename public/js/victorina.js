@@ -377,10 +377,11 @@ function addPoints() {
 function show_results() {
 	let player_points = ``
 	for (let member in membersPoints) {
+        console.log(document.querySelector(`button[data-member-name="${member}"]`));
 		player_points += `
         <div class="member_res">
-            <span class="member" id="4545">${member}</span>
-            <span class="points" id="4545">${document.querySelector(`button[data-member-name='${member}']`).dataset.mamberNum}. ${membersPoints[member]}</span>
+            <span class="member" id="4545">${document.querySelector(`button[data-member-name="${member}"]`).dataset.memberNum}. ${member}</span>
+            <span class="points" id="4545">${membersPoints[member]}</span>
         </div>
 		`
 	}
